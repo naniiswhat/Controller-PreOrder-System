@@ -39,12 +39,12 @@ if (!$row) {
 <body>
 
 <div class="container">
-    <h2>Edit Inventory: <?php echo $row['model_name']; ?></h2>
+    <h2>Edit Inventory: <?php echo htmlspecialchars($row['model_name']); ?></h2>
     <form action="php/update_stock.php" method="POST">
         <input type="hidden" name="id" value="<?php echo $row['controller_id']; ?>">
         
         <label>Model Name:</label>
-        <input type="text" name="model_name" value="<?php echo $row['model_name']; ?>" required>
+        <input type="text" name="model_name" value="<?php echo htmlspecialchars($row['model_name']); ?>" required>
 
         <label>Price (RM):</label>
         <input type="number" step="0.01" name="price" value="<?php echo $row['price']; ?>" required>
