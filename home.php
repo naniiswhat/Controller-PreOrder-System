@@ -1,48 +1,74 @@
 <?php
+// Mula sesi dan sambungan database
 session_start();
 include "includes/db_connect.php";
 
-// Pastikan user dah login
+// 1. Sekuriti: Pastikan user sudah log masuk
 if (!isset($_SESSION['role'])) {
     header("Location: index.php");
     exit();
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ms">
 <head>
-    <title>Dashboard Utama</title>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
     <style>
-        .container { max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; font-family: sans-serif; text-align: center; }
-        .admin-task-room { background-color: #e0f7fa; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: left; }
-        .btn-logout { display: block; background: #333; color: white; padding: 10px; text-decoration: none; border-radius: 5px; margin-top: 15px; }
-        ul { list-style: none; padding: 0; }
-        li { margin: 10px 0; }
-        li a { text-decoration: none; color: #006064; font-weight: bold; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 950px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .task-room { background: #e0f7fa; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #b2ebf2; }
+        .menu-list { list-style: none; padding: 0; display: flex; gap: 20px; }
+        .menu-list a { text-decoration: none; color: #006064; font-weight: bold; padding: 5px 10px; border-radius: 4px; transition: 0.3s; }
+        .menu-list a:hover { background: #b2ebf2; }
+        .btn-logout { background: #333; color: white; padding: 8px 15px; text-decoration: none; border-radius: 5px; display: inline-block; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo">admin logo</div>
     <h2>Welcome <?php echo ucfirst($_SESSION['role']); ?>: <?php echo $_SESSION['name']; ?></h2>
-    
     <p style="color: <?php echo ($_SESSION['role'] == 'admin') ? 'red' : 'green'; ?>; font-weight: bold;">
         System Clearance: <?php echo ($_SESSION['role'] == 'admin') ? 'Full Override Privilege' : 'Standard Operational Access'; ?>
     </p>
 
-    <div class="admin-task-room">
-        <h3>Admin Task Room:</h3>
-        <ul>
-            <li><a href="edit_products.php">📦 Add New Controller Variants</a></li>
-            <li><a href="php/manage-orders.php">⚙️ View Analytics</a></li>
-            
+    <div class="task-room">
+        <h3>Task Room:</h3>
+        <ul class="menu-list">
+            <li><a href="home.php?page=inventory">📦 Controller Variants Management</a></li>
+            <li><a href="home.php?page=analytics">⚙️ View Analytics</a></li>
             <?php if ($_SESSION['role'] === 'admin'): ?>
-                <li><a href="manage_users.php">👤 Manage User Accounts</a></li>
+                <li><a href="home.php?page=users">👤 Manage Users</a></li>
             <?php endif; ?>
         </ul>
     </div>
 
+    <div class="content-area" style="min-height: 300px; padding-top: 10px;">
+        <?php
+        $page = $_GET['page'] ?? 'default';
+        
+        // Senarai fail yang dibenarkan (White-listing untuk keselamatan)
+        $allowed_pages = [
+            'orders'    => 'manage_orders.php',
+            'inventory' => 'manage_inventory.php',
+            'users'     => 'manage_users.php',
+            'analytics' => 'view_analytics.php'
+        ];
+
+        if (array_key_exists($page, $allowed_pages)) {
+            $file = __DIR__ . '/' . $allowed_pages[$page];
+            if (file_exists($file)) {
+                include $file;
+            } else {
+                echo "<p style='color:red;'>Ralat: Fail <b>{$allowed_pages[$page]}</b> tidak ditemui di direktori.</p>";
+            }
+        } else {
+            echo "<h3>Selamat Datang ke Sistem Admin</h3><p>Sila pilih menu di atas untuk memulakan tugasan.</p>";
+        }
+        ?>
+    </div>
+
+    <hr>
     <a href="logout.php" class="btn-logout">Sign Out</a>
 </div>
 
