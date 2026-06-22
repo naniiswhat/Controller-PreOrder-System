@@ -35,10 +35,17 @@ if (!isset($_SESSION['role'])) {
     <div class="task-room">
         <h3>Task Room:</h3>
         <ul class="menu-list">
-            <li><a href="home.php?page=inventory">📦 Controller Variants Management</a></li>
-            <li><a href="home.php?page=analytics">⚙️ View Analytics</a></li>
+            
+        <!--Menu For Admin-->
             <?php if ($_SESSION['role'] === 'admin'): ?>
+                <li><a href="home.php?page=inventory">📦 Controller Variants Management</a></li>
+                <li><a href="home.php?page=analytics">⚙️ View Analytics</a></li>
                 <li><a href="home.php?page=users">👤 Manage Users</a></li>
+            <?php endif; ?>
+
+            <!--Menu For Staff-->
+            <?php if ($_SESSION['role'] === 'staff'): ?>
+                <li><a href="home.php?page=staff">📦 Staff Dashboard</a></li>
             <?php endif; ?>
         </ul>
     </div>
@@ -52,7 +59,8 @@ if (!isset($_SESSION['role'])) {
             'orders'    => 'manage_orders.php',
             'inventory' => 'manage_inventory.php',
             'users'     => 'manage_users.php',
-            'analytics' => 'view_analytics.php'
+            'analytics' => 'view_analytics.php',
+            'staff'     => 'staff/dashboard_staff.php'
         ];
 
         if (array_key_exists($page, $allowed_pages)) {
