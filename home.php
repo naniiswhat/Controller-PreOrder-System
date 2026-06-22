@@ -24,7 +24,47 @@ if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
                   
                   <div class="alert alert-info mt-3">
                       <strong>Admin Task Room:</strong><br>
-                      [Insert Core CRUD Manager Views Here]
+                    <?php 
+                        // fetch dashboard statistics
+                        $user_count = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM users"))['total'];
+                        $order_count = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as total FROM preorders"))['total'];
+                    ?>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="alert alert-primary">Total Users: <b><?=$user_count?></b></div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-success">Total Orders: <b><?=$order_count?></b></div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover bg-white text-start shadow-sm">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Order ID</th><th>User ID</th><th>Controller ID</th><th>Qty</th><th>Status</th><th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $res = mysqli_query($conn, "SELECT * FROM preorders");
+                                while ($row = mysqli_fetch_assoc($res)) {
+                                    echo "<tr>
+                                            <td>{$row['order_id']}</td>
+                                            <td>{$row['user_id']}</td>
+                                            <td>{$row['controller_id']}</td>
+                                            <td>{$row['quantity']}</td>
+                                            <td><strong>{$row['status']}</strong></td>
+                                            <td>
+                                                <a href='edit_order.php?id={$row['order_id']}' class='btn btn-sm btn-primary'>Edit</a>
+                                                <a href='php/manage-orders.php?delete={$row['order_id']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Confirm delete?\")'>Delete</a>
+                                            </td>
+                                          </tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                   </div>
                   
                   <a href="logout.php" class="btn btn-dark w-100">Sign Out</a>

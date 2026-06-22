@@ -25,7 +25,7 @@ if (isset($_POST['update_full_order'])) {
         mysqli_stmt_bind_param($stmt, "iiisi", $u_id, $c_id, $qty, $status, $id);
         mysqli_stmt_execute($stmt);
         // Kembali ke dashboard dengan status berjaya [cite: 351]
-        header("Location: ../dashboard_admin.php?status=updated");
+        header("Location: ../home.php?status=updated");
     } else {
         echo "Error: " . mysqli_error($conn);
     }
@@ -41,7 +41,7 @@ if (isset($_GET['delete'])) {
     mysqli_stmt_bind_param($stmt, "i", $id);
     mysqli_stmt_execute($stmt);
     
-    header("Location: ../dashboard_admin.php?status=deleted");
+    header("Location: ../home.php?status=deleted");
     exit();
 }
 ?>
