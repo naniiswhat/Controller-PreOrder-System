@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2026 at 05:56 PM
+-- Generation Time: Jun 22, 2026 at 04:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -77,9 +77,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `role`) VALUES
-(1, 'admin_dan', 'admin@steam.com', 'admin123', 'admin'),
-(2, 'staff_patrick', 'staff@steam.com', 'staff123', 'staff'),
-(3, 'gamer1', 'gamer@gmail.com', 'gamer123', 'customer');
+(1, 'admin_dan', 'admin@steam.com', '0192023a7bbd73250516f069df18b500', 'admin'),
+(2, 'staff_patrick', 'staff@steam.com', 'de9bf5643eabf80f4a56fda3bbb84483', 'staff'),
+(3, 'gamer1', 'gamer@gmail.com', 'cf8273525e7fa7f26335a8ee26dd54f3', 'customer');
 
 --
 -- Indexes for dumped tables

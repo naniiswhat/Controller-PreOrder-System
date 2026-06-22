@@ -1,0 +1,4 @@
+- The foundational local documentation manual.
+- Lays down step-by-step instructions for everyone to configure their local XAMPP Apache and MySQL environments
+- Details how to import the .sql schema backup file inside phpMyAdmin
+- Provides the exact universal testing credentials needed to trace role redirection mechanics during local code evaluation cycles

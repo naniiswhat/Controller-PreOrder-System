@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steam Controller V2 Base | Controller Pre Order System</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="shop">
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="brand" href="index.php" aria-label="Home">
+      <img src="assets/logo-placeholder.svg" alt="">
+    </a>
+    <a href="shop.php" data-page="shop">Shop</a>
+    <a href="about.php" data-page="about">About</a>
+    <a href="login.php" data-page="login">Login</a>
+  </nav>
+
+  <main class="product-detail-main">
+    <section class="product-detail-layout" aria-label="Steam Controller V2 Base details">
+      <div class="product-gallery">
+        <div class="product-thumbnails" aria-label="Product views">
+          <button class="thumb active" type="button" aria-label="Side view">
+            <img src="assets/product-1_0.jpg" alt="">
+          </button>
+          <button class="thumb thumb-wide" type="button" aria-label="Angled view">
+            <img src="assets/product-1_0.jpg" alt="">
+          </button>
+          <button class="thumb thumb-top" type="button" aria-label="Top view">
+            <img src="assets/product-1_0.jpg" alt="">
+          </button>
+          <button class="thumb thumb-detail" type="button" aria-label="Grip detail">
+            <img src="assets/product-1_0.jpg" alt="">
+          </button>
+        </div>
+
+        <div class="product-stage">
+          <img src="assets/product-1_0.jpg" alt="Steam Controller V2 Base">
+        </div>
+
+        <div class="gallery-controls" aria-label="Gallery controls">
+          <button type="button" aria-label="Previous image">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m15 18-6-6 6-6"></path>
+            </svg>
+          </button>
+          <button type="button" aria-label="Next image">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <aside class="product-detail-panel">
+        <div class="product-detail-content">
+          <header class="product-summary">
+            <h1>Steam Controller V2</h1>
+            <p class="summary-line">Precision input, tuned grip, and responsive play for the next session.</p>
+            <strong class="detail-price">RM59.99</strong>
+          </header>
+
+          <section class="option-group" aria-labelledby="color-title">
+            <div class="option-head">
+              <h2 id="color-title">Color</h2>
+              <span>100 units available</span>
+            </div>
+            <div class="option-grid compact">
+              <button class="option-pill selected" type="button">Carbon</button>
+              <button class="option-pill" type="button">Cloud</button>
+              <button class="option-pill" type="button">Pulse</button>
+            </div>
+          </section>
+
+          <a class="btn preorder-btn" href="login.php">Pre-order now</a>
+
+          <div class="product-divider"></div>
+
+          <section class="product-copy">
+            <h2>Description</h2>
+            <p>Dual trackpads, HD haptics, and ergonomic rear buttons.</p>
+            <p>Built for accurate movement and comfortable long sessions, this controller keeps core inputs close, clean, and quick to reach.</p>
+            <p>Reserve yours before the next drop and track the preorder from your account once checkout opens.</p>
+          </section>
+
+          <p class="return-note" aria-label="Return note">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m7.5 4.27 9 5.15"></path>
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+              <path d="m3.3 7 8.7 5 8.7-5"></path>
+              <path d="M12 22V12"></path>
+              <path d="m16 19 2 2 4-4"></path>
+            </svg>
+            14-day return and controller exchange
+          </p>
+
+          <div class="detail-accordions">
+            <details>
+              <summary>
+                Controller Details
+                <svg class="icon accordion-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </summary>
+              <p>Responsive buttons, textured grips, precise thumbstick travel, and a balanced shell for daily play.</p>
+            </details>
+            <details>
+              <summary>
+                Pre-order Details
+                <svg class="icon accordion-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </summary>
+              <p>Preorders reserve available stock. Final confirmation happens after account login.</p>
+            </details>
+            <details>
+              <summary>
+                Return Policy
+                <svg class="icon accordion-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6"></path>
+                </svg>
+              </summary>
+              <p>Eligible controllers can be returned or exchanged within 14 days when kept in original condition.</p>
+            </details>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
