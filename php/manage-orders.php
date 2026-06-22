@@ -1,31 +1,47 @@
 <?php
+// Sambungan ke database 
 include "../includes/db_connect.php";
-$id = $_GET['id'];
+session_start();
 
-// Ambil data order untuk ID tersebut
-$stmt = mysqli_stmt_init($conn);
-mysqli_stmt_prepare($stmt, "SELECT * FROM preorders WHERE order_id=?");
-mysqli_stmt_bind_param($stmt, "i", $id);
-mysqli_stmt_execute($stmt);
-$row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+// Validasi keselamatan: Pastikan hanya admin boleh mengakses [cite: 314, 368]
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../index.php");
+    exit();
+}
+
+// 1. LOGIK UPDATE (Untuk edit semua variable)
+if (isset($_POST['update_full_order'])) {
+    $id = $_POST['id'];
+    $u_id = $_POST['user_id'];
+    $c_id = $_POST['controller_id'];
+    $qty = $_POST['quantity'];
+    $status = $_POST['status'];
+
+    // Menggunakan Prepared Statement untuk keselamatan [cite: 331]
+    $stmt = mysqli_stmt_init($conn);
+    $sql = "UPDATE preorders SET user_id=?, controller_id=?, quantity=?, status=? WHERE order_id=?";
+    
+    if (mysqli_stmt_prepare($stmt, $sql)) {
+        mysqli_stmt_bind_param($stmt, "iiisi", $u_id, $c_id, $qty, $status, $id);
+        mysqli_stmt_execute($stmt);
+        // Kembali ke dashboard dengan status berjaya [cite: 351]
+        header("Location: ../dashboard_admin.php?status=updated");
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+    exit();
+}
+
+// 2. LOGIK DELETE
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+
+    $stmt = mysqli_stmt_init($conn);
+    mysqli_stmt_prepare($stmt, "DELETE FROM preorders WHERE order_id=?");
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    mysqli_stmt_execute($stmt);
+    
+    header("Location: ../dashboard_admin.php?status=deleted");
+    exit();
+}
 ?>
-<!DOCTYPE html>
-<html>
-<body>
-    <h2>Edit Order Status</h2>
-    <form action="php/manage-orders.php" method="POST">
-        <input type="hidden" name="id" value="<?php echo $row['order_id']; ?>">
-        
-        <p>Order ID: <?php echo $row['order_id']; ?></p>
-        
-        <label>Status:</label>
-        <select name="status">
-            <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
-            <option value="processing" <?php if($row['status']=='processing') echo 'selected'; ?>>Processing</option>
-            <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
-        </select>
-        
-        <button type="submit" name="update_order">Update Status</button>
-    </form>
-</body>
-</html>

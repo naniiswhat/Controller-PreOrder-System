@@ -1,39 +1,33 @@
 <?php
 include "includes/db_connect.php";
 
-// Pastikan ID wujud dalam URL
-if (!isset($_GET['id'])) {
-    die("Error: No Order ID provided.");
-}
-
 $id = $_GET['id'];
-
-// Ambil data order
 $stmt = mysqli_stmt_init($conn);
 mysqli_stmt_prepare($stmt, "SELECT * FROM preorders WHERE order_id=?");
 mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$row = mysqli_fetch_assoc($result);
-
-// Jika ID tidak dijumpai dalam database
-if (!$row) {
-    die("Error: Order not found.");
-}
+$row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 ?>
 
-<h2>Edit Order Status</h2>
+<h2>Edit Order Penuh (Full Override)</h2>
 <form action="php/manage-orders.php" method="POST">
     <input type="hidden" name="id" value="<?php echo $row['order_id']; ?>">
     
-    <p>Order ID: <?php echo $row['order_id']; ?></p>
-    
-    <label>Status:</label>
+    <label>User ID:</label><br>
+    <input type="text" name="user_id" value="<?php echo $row['user_id']; ?>" required><br>
+
+    <label>Controller ID:</label><br>
+    <input type="text" name="controller_id" value="<?php echo $row['controller_id']; ?>" required><br>
+
+    <label>Quantity:</label><br>
+    <input type="number" name="quantity" value="<?php echo $row['quantity']; ?>" required><br>
+
+    <label>Status:</label><br>
     <select name="status">
-        <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
-        <option value="processing" <?php if($row['status']=='processing') echo 'selected'; ?>>Processing</option>
-        <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
-    </select>
+        <option value="Pending" <?php if($row['status']=='Pending') echo 'selected'; ?>>Pending</option>
+        <option value="Approved" <?php if($row['status']=='Approved') echo 'selected'; ?>>Approved</option>
+        <option value="Shipped" <?php if($row['status']=='Shipped') echo 'selected'; ?>>Shipped</option>
+    </select><br><br>
     
-    <button type="submit" name="update_order">Update Status</button>
+    <button type="submit" name="update_full_order">Save All Changes</button>
 </form>
