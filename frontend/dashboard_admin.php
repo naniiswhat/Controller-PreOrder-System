@@ -37,7 +37,7 @@ $userCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM users");
 $orderCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM preorders");
 $controllerCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM controllers");
 $stockTotal = fetch_count($conn, "SELECT COALESCE(SUM(stock_quantity), 0) AS total FROM controllers");
-$controllers = fetch_rows($conn, "SELECT model_name, stock_quantity, price FROM controllers ORDER BY controller_id");
+$controllers = fetch_rows($conn, "SELECT controller_id, model_name, description, stock_quantity, price FROM controllers ORDER BY controller_id");
 $orders = fetch_rows(
   $conn,
   "SELECT p.order_id, u.username, c.model_name, p.quantity, p.status
@@ -46,7 +46,7 @@ $orders = fetch_rows(
    LEFT JOIN controllers c ON c.controller_id = p.controller_id
    ORDER BY p.order_id DESC"
 );
-$users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY user_id");
+$users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORDER BY user_id");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,6 +76,10 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
         <a class="btn secondary" href="shop.php">View shop</a>
       </header>
 
+      <?php if (isset($_GET["status"])): ?>
+        <p class="form-message success">Update saved.</p>
+      <?php endif; ?>
+
       <div class="stat-row">
         <div class="stat"><strong><?php echo $controllerCount; ?></strong><span>Controllers</span></div>
         <div class="stat"><strong><?php echo $orderCount; ?></strong><span>Pre orders</span></div>
@@ -86,26 +90,26 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
       <div class="admin-grid">
         <section class="admin-panel">
           <h2>Add controller</h2>
-          <form>
+          <form action="../php/add_variant.php" method="post">
             <div class="field">
               <label for="model">Model name</label>
-              <input id="model" type="text" placeholder="Steam Controller Pro">
+              <input id="model" name="model_name" type="text" placeholder="Steam Controller Pro" required>
             </div>
             <div class="form-row">
               <div class="field">
                 <label for="price">Price</label>
-                <input id="price" type="text" placeholder="89.99">
+                <input id="price" name="price" type="number" step="0.01" min="0" placeholder="89.99" required>
               </div>
               <div class="field">
                 <label for="stock">Stock</label>
-                <input id="stock" type="number" placeholder="50">
+                <input id="stock" name="stock" type="number" min="0" placeholder="50" required>
               </div>
             </div>
             <div class="field">
               <label for="description">Description</label>
-              <textarea id="description" placeholder="Short product description"></textarea>
+              <textarea id="description" name="description" placeholder="Short product description"></textarea>
             </div>
-            <button class="btn" type="button">Save product</button>
+            <button class="btn" type="submit" name="add_variant">Save product</button>
           </form>
         </section>
 
@@ -113,7 +117,7 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
           <h2>Products</h2>
           <table class="table">
             <thead>
-              <tr><th>Model</th><th>Stock</th><th>Price</th></tr>
+              <tr><th>Model</th><th>Stock</th><th>Price</th><th>Actions</th></tr>
             </thead>
             <tbody>
               <?php if ($controllers): ?>
@@ -122,10 +126,14 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
                     <td><?php echo h($controller['model_name']); ?></td>
                     <td><?php echo h($controller['stock_quantity']); ?></td>
                     <td>RM<?php echo number_format((float) $controller['price'], 2); ?></td>
+                    <td>
+                      <a href="../edit_stock.php?id=<?php echo h($controller['controller_id']); ?>">Edit</a>
+                      <a href="../php/delete_variant.php?id=<?php echo h($controller['controller_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
+                    </td>
                   </tr>
                 <?php endforeach; ?>
               <?php else: ?>
-                <tr><td colspan="3">No controllers found.</td></tr>
+                <tr><td colspan="4">No controllers found.</td></tr>
               <?php endif; ?>
             </tbody>
           </table>
@@ -160,9 +168,32 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
 
         <section class="admin-panel">
           <h2>Users</h2>
+          <form class="compact-form" action="../php/add_user.php" method="post">
+            <div class="field">
+              <label for="username">Username</label>
+              <input id="username" name="username" type="text" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email">
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" required>
+            </div>
+            <div class="field">
+              <label for="role">Role</label>
+              <select id="role" name="role" required>
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+                <option value="customer">Customer</option>
+              </select>
+            </div>
+            <button class="btn" type="submit" name="add_user">Add user</button>
+          </form>
           <table class="table">
             <thead>
-              <tr><th>Name</th><th>Email</th><th>Role</th></tr>
+              <tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr>
             </thead>
             <tbody>
               <?php if ($users): ?>
@@ -171,10 +202,14 @@ $users = fetch_rows($conn, "SELECT username, email, role FROM users ORDER BY use
                     <td><?php echo h($user['username']); ?></td>
                     <td><?php echo h($user['email']); ?></td>
                     <td><?php echo h(ucfirst($user['role'])); ?></td>
+                    <td>
+                      <a href="../edit_user.php?id=<?php echo h($user['user_id']); ?>">Edit</a>
+                      <a href="../php/delete_user.php?id=<?php echo h($user['user_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
+                    </td>
                   </tr>
                 <?php endforeach; ?>
               <?php else: ?>
-                <tr><td colspan="3">No users found.</td></tr>
+                <tr><td colspan="4">No users found.</td></tr>
               <?php endif; ?>
             </tbody>
           </table>

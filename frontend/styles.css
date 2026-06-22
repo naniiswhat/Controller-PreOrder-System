@@ -615,6 +615,32 @@ main {
   background: #cfcfcf;
 }
 
+.preorder-form {
+  display: grid;
+  width: min(220px, 100%);
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.preorder-form label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.preorder-form input {
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.preorder-form .preorder-btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
 .product-divider {
   height: 1px;
   margin: 34px 0 28px;
@@ -812,6 +838,12 @@ main {
   gap: 12px;
 }
 
+.compact-form {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
 .small-link {
   color: var(--muted);
   font-size: 12px;
@@ -1005,6 +1037,11 @@ main {
 .staff-save {
   width: 100%;
   margin-top: 14px;
+}
+
+.stock-item .staff-save {
+  grid-column: 1 / -1;
+  margin-top: 0;
 }
 
 .staff-note {

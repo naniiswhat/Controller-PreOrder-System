@@ -1,3 +1,24 @@
+<?php
+session_start();
+require_once __DIR__ . '/../includes/db_connect.php';
+
+function h($value)
+{
+  return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+}
+
+$controllers = [];
+$result = mysqli_query($conn, "SELECT controller_id, model_name, description, price, stock_quantity FROM controllers ORDER BY controller_id");
+
+if ($result) {
+  while ($row = mysqli_fetch_assoc($result)) {
+    $controllers[] = $row;
+  }
+}
+
+$navLabel = isset($_SESSION['role']) ? 'Dashboard' : 'Login';
+$navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,53 +34,31 @@
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
     <a href="about.php" data-page="about">About</a>
-    <a href="login.php" data-page="login">Login</a>
+    <a href="<?php echo h($navHref); ?>" data-page="login"><?php echo h($navLabel); ?></a>
   </nav>
 
   <main>
     <section class="page">
       <header class="page-title">
         <h1>Full collection</h1>
-        <p>6 results</p>
+        <p><?php echo count($controllers); ?> results</p>
       </header>
 
       <div class="shop-grid">
-        <a class="product" href="product.php?id=1">
-          <div class="product-image"><img src="assets/product-1_0.jpg" alt="Steam Controller V2 Base"></div>
-          <h2>Steam Controller V2</h2>
-          <p>Dual trackpads and HD haptics.</p>
-          <div class="price">RM99.99</div>
-        </a>
-        <a class="product" href="product.php?id=2">
-          <div class="product-image"><img src="assets/product-placeholder.svg" alt="Steam Controller Pro"></div>
-          <h2>Steam Controller Pro</h2>
-          <p>Swappable thumbsticks and premium grips.</p>
-          <div class="price">RM89.99</div>
-        </a>
-        <article class="product">
-          <div class="product-image"><img src="assets/product-placeholder.svg" alt="Controller Lite"></div>
-          <h2>PS5 DualSense</h2>
-          <p>DualSense® Wireless Controller</p>
-          <div class="price">RM109.00</div>
-        </article>
-        <article class="product">
-          <div class="product-image"><img src="assets/product-placeholder.svg" alt="Arcade Controller"></div>
-          <h2>Arcade Controller</h2>
-          <p>Large buttons for fighting games.</p>
-          <div class="price">RM74.99</div>
-        </article>
-        <article class="product">
-          <div class="product-image"><img src="assets/product-placeholder.svg" alt="Controller Dock"></div>
-          <h2>Controller Dock</h2>
-          <p>Charging dock with display stand.</p>
-          <div class="price">RM29.99</div>
-        </article>
-        <article class="product">
-          <div class="product-image"><img src="assets/product-placeholder.svg" alt="Pro Grip Kit"></div>
-          <h2>Pro Grip Kit</h2>
-          <p>Replacement grips and sticks.</p>
-          <div class="price">RM19.99</div>
-        </article>
+        <?php if ($controllers): ?>
+          <?php foreach ($controllers as $index => $controller): ?>
+            <a class="product" href="product.php?id=<?php echo h($controller['controller_id']); ?>">
+              <div class="product-image">
+                <img src="<?php echo $index === 0 ? 'assets/product-1_0.jpg' : 'assets/product-placeholder.svg'; ?>" alt="<?php echo h($controller['model_name']); ?>">
+              </div>
+              <h2><?php echo h($controller['model_name']); ?></h2>
+              <p><?php echo h($controller['description'] ?: 'Controller preorder item.'); ?></p>
+              <div class="price">RM<?php echo number_format((float) $controller['price'], 2); ?></div>
+            </a>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <p class="small-link">No controllers are available right now.</p>
+        <?php endif; ?>
       </div>
     </section>
   </main>

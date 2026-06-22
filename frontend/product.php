@@ -1,5 +1,11 @@
 <?php
+session_start();
 require_once __DIR__ . '/../includes/db_connect.php';
+
+function h($value)
+{
+  return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+}
 
 $controllerId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $controller = null;
@@ -34,6 +40,9 @@ $description = $controller && $controller['description']
 $price = $controller ? 'RM' . number_format((float) $controller['price'], 2) : '';
 $stock = $controller ? (int) $controller['stock_quantity'] : 0;
 $isAvailable = $controller && $stock > 0;
+$isCustomer = isset($_SESSION['role']) && $_SESSION['role'] === 'customer';
+$navLabel = isset($_SESSION['role']) ? 'Dashboard' : 'Login';
+$navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +59,7 @@ $isAvailable = $controller && $stock > 0;
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
     <a href="about.php" data-page="about">About</a>
-    <a href="login.php" data-page="login">Login</a>
+    <a href="<?php echo h($navHref); ?>" data-page="login"><?php echo h($navLabel); ?></a>
   </nav>
 
   <main class="product-detail-main">
@@ -111,9 +120,25 @@ $isAvailable = $controller && $stock > 0;
               </div>
             </section>
 
-            <a class="btn preorder-btn<?php echo $isAvailable ? '' : ' disabled'; ?>" href="<?php echo $isAvailable ? 'login.php' : 'shop.php'; ?>">
-              <?php echo $isAvailable ? 'Pre-order now' : 'Back to shop'; ?>
-            </a>
+            <?php if (isset($_GET["error"])): ?>
+              <p class="form-message error"><?php echo h($_GET["error"]); ?></p>
+            <?php endif; ?>
+            <?php if (isset($_GET["success"])): ?>
+              <p class="form-message success"><?php echo h($_GET["success"]); ?></p>
+            <?php endif; ?>
+
+            <?php if ($isAvailable && $isCustomer): ?>
+              <form class="preorder-form" action="../php/create-preorder.php" method="post">
+                <input type="hidden" name="controller_id" value="<?php echo h($controller['controller_id']); ?>">
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" min="1" max="<?php echo h($stock); ?>" value="1" required>
+                <button class="btn preorder-btn" type="submit">Pre-order now</button>
+              </form>
+            <?php elseif ($isAvailable): ?>
+              <a class="btn preorder-btn" href="login.php">Login to pre-order</a>
+            <?php else: ?>
+              <a class="btn preorder-btn disabled" href="shop.php">Back to shop</a>
+            <?php endif; ?>
 
             <div class="product-divider"></div>
 

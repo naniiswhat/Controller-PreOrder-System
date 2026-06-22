@@ -35,7 +35,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
     } else {
         
         // 1. Write the query using question marks as placeholders
-        $sql = "SELECT * FROM users WHERE email=? AND password=?";
+        $sql = "SELECT * FROM users WHERE email=? LIMIT 1";
         
         // 2. Initialize a secure statement package
         $stmt = mysqli_stmt_init($conn);
@@ -45,12 +45,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
             header("Location: {$loginPage}?error=Database query failed");
             exit();
         } else {
-            // Note: Keep your hashing here for now to match current DB records,
-            // but remember to migrate to password_hash() later for security.
-            $hashed_password = md5($password);
-            
-            // 4. Bind the user inputs to the question marks ("ss" = two strings)
-            mysqli_stmt_bind_param($stmt, "ss", $email, $hashed_password);
+            // 4. Bind the user input to the question mark ("s" = one string)
+            mysqli_stmt_bind_param($stmt, "s", $email);
             
             // 5. Execute the secure query
             mysqli_stmt_execute($stmt);
@@ -62,8 +58,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
             if (mysqli_num_rows($result) === 1) {
                 $row = mysqli_fetch_assoc($result);
 
-                // verify db user role matches the user's dropdown input selection
-                if ($row['role'] == $role) {
+                $stored_password = $row['password'];
+                $password_matches = password_verify($password, $stored_password) || hash_equals(md5($password), $stored_password);
+
+                // verify password and db user role match the user's dropdown input selection
+                if ($password_matches && $row['role'] == $role) {
                     
                     // assign authorization parameters into persistent session tracking arrays
                     $_SESSION['id'] = $row['user_id'];
@@ -74,8 +73,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
                     header("Location: {$homePage}");
                     exit();
 
-                } else { // redirect if role strings mismatch
+                } else if ($password_matches) { // redirect if role strings mismatch
                     header("Location: {$loginPage}?error=Incorrect selected role for this account");
+                    exit();
+                } else {
+                    header("Location: {$loginPage}?error=Incorrect email address or password sequence");
                     exit();
                 }
             } else { // redirect if query maps clear out empty
