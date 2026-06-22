@@ -9,7 +9,7 @@
 <body data-page="home">
   <nav class="top-nav" aria-label="Main navigation">
     <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo-placeholder.svg" alt="">
+      <img src="assets/logo.svg" alt="">
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
     <a href="about.php" data-page="about">About</a>
@@ -18,17 +18,12 @@
 
   <main class="home-main">
     <section class="launch-hero" aria-labelledby="launch-title">
-      <div class="launch-copy">
-        <p class="launch-kicker">New drop open now</p>
-        <h1 id="launch-title">Steam Controller</h1>
-        <p>Reserve the next controller before the first batch leaves the dock.</p>
-      </div>
-
+      <div class="hero-bg" aria-hidden="true"></div>
       <div class="controller-stage" aria-hidden="true">
-        <span class="controller-shadow-text">Steam Controller</span>
-        <img class="floating-controller" src="assets/front.png" alt="">
+          <p class="launch-kicker">New drop open now</p>
+          <span class="controller-shadow-text">Steam Controller</span>
+          <img class="floating-controller" src="assets/front.png" alt="">
       </div>
-
       <a class="btn preorder-launch-btn" href="shop.php">Pre-order now</a>
     </section>
   </main>

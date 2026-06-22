@@ -20,8 +20,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Inter", Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.45;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 14;
 }
 
 a {
@@ -33,6 +35,7 @@ button,
 input,
 select,
 textarea {
+  font-family: inherit;
   font: inherit;
 }
 
@@ -78,7 +81,7 @@ textarea {
 .top-nav a {
   color: #3c3c3c;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 525;
   white-space: nowrap;
 }
 
@@ -95,9 +98,7 @@ main {
   min-height: 100vh;
   padding: 0;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(225, 237, 255, 0.92) 0 22%, transparent 42%),
-    linear-gradient(135deg, #f6f4ef 0%, #e9edf4 48%, #d8e2d6 100%);
+  background: linear-gradient(135deg, #f6f4ef 0%, #e9edf4 48%, #d8e2d6 100%);
   color: #111111;
 }
 
@@ -114,12 +115,17 @@ main {
   isolation: isolate;
 }
 
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background: url("assets/bg.jpg") center / cover no-repeat;
+}
+
 .launch-hero::before {
   position: absolute;
   inset: 16px;
   z-index: -2;
-  border: 1px solid rgba(17, 17, 17, 0.11);
-  border-radius: 28px;
   content: "";
 }
 
@@ -172,8 +178,9 @@ main {
 
 .controller-shadow-text {
   position: absolute;
+  top: 15%;
   z-index: 0;
-  color: rgba(11, 11, 11, 0.07);
+  color: rgba(225, 197, 100, 1);
   font-size: 126px;
   font-weight: 800;
   line-height: 0.82;
@@ -186,7 +193,7 @@ main {
   position: relative;
   z-index: 1;
   display: block;
-  width: min(78%, 820px);
+  width: min(48%, 820px);
   height: auto;
   filter: drop-shadow(0 42px 34px rgba(28, 34, 39, 0.22));
   animation: controller-float 5.8s ease-in-out 1.15s infinite;
@@ -271,6 +278,7 @@ main {
 .card p,
 .product p {
   color: var(--muted);
+  font-weight: 475;
 }
 
 .actions {
@@ -354,20 +362,28 @@ main {
 
 .product-image {
   aspect-ratio: 1 / 1;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .product h2 {
+  margin: 0;
   font-size: 14px;
+  font-weight: 525;
+}
+
+.product p {
+  margin: 0;
 }
 
 .price {
-  margin-top: 8px;
-  font-weight: 800;
+  margin-top: 0;
+  font-weight: 550;
 }
 
 .product {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .product:focus-visible {

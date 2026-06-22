@@ -9,7 +9,7 @@
 <body data-page="about">
   <nav class="top-nav" aria-label="Main navigation">
     <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo-placeholder.svg" alt="">
+      <img src="assets/logo.svg" alt="">
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
     <a href="about.php" data-page="about">About</a>
