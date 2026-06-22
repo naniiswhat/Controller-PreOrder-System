@@ -72,18 +72,49 @@ if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
               </div>
 
           <?php } else if ($_SESSION['role'] == 'staff') { ?>
-              <div class="card text-center p-4 shadow" style="width: 24rem;">
+              <div class="card text-center p-4 shadow w-100" style="max-width: 800px;">
                 <img src="img/user-default.jpg" class="card-img-top mx-auto d-block" alt="staff logo" style="width: 100px;">
                 <div class="card-body">
                   <h5 class="card-title">Welcome Staff: <?=$_SESSION['name']?></h5>
                   <p class="card-text text-warning font-monospace">System Clearance: Inventory Supervisor</p>
                   
-                  <div class="alert alert-info mt-3">
-                      <strong>Staff Queue Room:</strong><br>
-                      [Insert Pre-Order Status Processing Modals Here]
+                  <h4 class="mt-4 text-start">Current Controller Inventory</h4>
+                  <div class="table-responsive">
+                      <table class="table table-bordered table-hover bg-white text-start shadow-sm">
+                          <thead class="table-dark">
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Model Name</th>
+                                  <th>Price</th>
+                                  <th>Stock Qty</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <?php
+                              // Fetch all products from the controllers table
+                              $inv_res = mysqli_query($conn, "SELECT * FROM controllers");
+                              while ($inv_row = mysqli_fetch_assoc($inv_res)) {
+                                  echo "<tr>
+                                          <td>{$inv_row['controller_id']}</td>
+                                          <td>{$inv_row['model_name']}</td>
+                                          <td>RM {$inv_row['price']}</td>
+                                          <td>
+                                            <span class='badge bg-" . ($inv_row['stock_quantity'] > 10 ? 'success' : 'danger') . "'>
+                                                {$inv_row['stock_quantity']} in stock
+                                            </span>
+                                          </td>
+                                          <td>
+                                              <a href='edit_products.php?id={$inv_row['controller_id']}' class='btn btn-sm btn-warning'>Edit Stock</a>
+                                          </td>
+                                        </tr>";
+                              }
+                              ?>
+                          </tbody>
+                      </table>
                   </div>
                   
-                  <a href="logout.php" class="btn btn-dark w-100">Sign Out</a>
+                  <a href="logout.php" class="btn btn-dark w-100 mt-3">Sign Out</a>
                 </div>
               </div>
 

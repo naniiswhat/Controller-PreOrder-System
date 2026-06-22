@@ -2,19 +2,20 @@
 session_start();
 include "includes/db_connect.php";
 
-// Pastikan hanya Admin atau Staff yang boleh akses
+// making sure only Admin or Staff can access
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'staff')) {
-    die("Access Denied");
+    header("Location: index.php");
+    exit();
 }
 
-// Dapatkan ID dari URL
+// get ID from URL
 if (!isset($_GET['id'])) {
     die("Error: No Controller ID provided.");
 }
 
 $id = $_GET['id'];
 
-// Ambil data sedia ada
+// Fetch existing data
 $stmt = mysqli_stmt_init($conn);
 mysqli_stmt_prepare($stmt, "SELECT * FROM controllers WHERE controller_id=?");
 mysqli_stmt_bind_param($stmt, "i", $id);
@@ -24,39 +25,42 @@ $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 if (!$row) {
     die("Controller not found.");
 }
+
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Controller</title>
-    <style>
-        .container { max-width: 500px; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif; }
-        input, select { width: 100%; padding: 8px; margin: 10px 0; }
-        button { background: #007bff; color: white; padding: 10px; border: none; cursor: pointer; }
-    </style>
+    <meta charset="UTF-8">
+    <title>Edit Controller Inventory</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+    <div class="container my-5 d-flex justify-content-center">
+        <div class="card shadow p-4 w-100" style="max-width: 500px;">
+            <h3 class="mb-4 text-center">Edit Inventory: <br><span class="text-primary"><?php echo $row['model_name']; ?></span></h3>
+            
+            <form action="php/update_stock.php" method="POST">
+                <input type="hidden" name="id" value="<?php echo $row['controller_id']; ?>">
+                
+                <div class="mb-3">
+                    <label class="form-label">Model Name</label>
+                    <input type="text" class="form-control" name="model_name" value="<?php echo $row['model_name']; ?>" required>
+                </div>
 
-<div class="container">
-    <h2>Edit Inventory: <?php echo $row['model_name']; ?></h2>
-    <form action="php/update_stock.php" method="POST">
-        <input type="hidden" name="id" value="<?php echo $row['controller_id']; ?>">
-        
-        <label>Model Name:</label>
-        <input type="text" name="model_name" value="<?php echo $row['model_name']; ?>" required>
+                <div class="mb-3">
+                    <label class="form-label">Price (RM)</label>
+                    <input type="number" step="0.01" class="form-control" name="price" value="<?php echo $row['price']; ?>" required>
+                </div>
 
-        <label>Price (RM):</label>
-        <input type="number" step="0.01" name="price" value="<?php echo $row['price']; ?>" required>
-
-        <label>Stock Quantity:</label>
-        <input type="number" name="stock" value="<?php echo $row['stock_quantity']; ?>" required>
-        
-        <button type="submit" name="update_product">Update Stock/Product</button>
-    </form>
-    <br>
-    <a href="home.php?page=inventory">Back to Inventory</a>
-</div>
-
+                <div class="mb-4">
+                    <label class="form-label">Stock Quantity</label>
+                    <input type="number" class="form-control" name="stock" value="<?php echo $row['stock_quantity']; ?>" required>
+                </div>
+                
+                <button type="submit" name="update_product" class="btn btn-primary w-100 mb-2">Update Product Data</button>
+                <a href="home.php" class="btn btn-outline-secondary w-100">Cancel & Return</a>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
