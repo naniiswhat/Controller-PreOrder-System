@@ -31,7 +31,7 @@ if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['passwor
     } else {
         
         // step 1: check if the email already exists in the database using a secure prepared statement
-        $check_sql = "SELECT * FROM users WHERE email=?";
+        $check_sql = "SELECT * FROM users WHERE email=? OR username=?";
         $stmt = mysqli_stmt_init($conn);
         
         if (!mysqli_stmt_prepare($stmt, $check_sql)) {
