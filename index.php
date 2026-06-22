@@ -21,7 +21,13 @@ if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
         
         <?php if (isset($_GET["error"])): ?>
             <div class="alert alert-danger" role="alert">
-                Incorrect email address or password sequence. Please try again.
+                <?php echo htmlspecialchars($_GET["error"]); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_GET["success"])): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo htmlspecialchars($_GET["success"]); ?>
             </div>
         <?php endif; ?>
 
@@ -54,6 +60,9 @@ if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
             <div class="row mb-3">
                 <div class="offset-sm-3 col-sm-3 d-grid">
                     <button type="submit" class="btn btn-primary">Sign In</button>
+                    <div class="mt-3">
+                        <p>Don't have an account? <a href="register.php">Register here</a>.</p>
+                    </div>
                 </div>
             </div>
         </form>

@@ -40,7 +40,7 @@ if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['passwor
         }
         
         // bind the email parameter and run the check
-        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_bind_param($stmt, "ss", $email, $username);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
 
