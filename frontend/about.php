@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+$navLabel = isset($_SESSION['role']) ? 'Logout' : 'Login';
+$navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +19,7 @@
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
     <a href="about.php" data-page="about">About</a>
-    <a href="login.php" data-page="login">Login</a>
+    <a href="<?php echo $navHref; ?>" data-page="login"><?php echo $navLabel; ?></a>
   </nav>
 
   <main>

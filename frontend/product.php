@@ -60,8 +60,8 @@ $images = $images ?: ['assets/product-1_0.jpg'];
 $imagePath = $images[0];
 $isAvailable = $controller && $stock > 0;
 $isCustomer = isset($_SESSION['role']) && $_SESSION['role'] === 'customer';
-$navLabel = isset($_SESSION['role']) ? 'Dashboard' : 'Login';
-$navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
+$navLabel = isset($_SESSION['role']) ? 'Logout' : 'Login';
+$navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

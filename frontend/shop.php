@@ -22,8 +22,8 @@ if ($result) {
   }
 }
 
-$navLabel = isset($_SESSION['role']) ? 'Dashboard' : 'Login';
-$navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
+$navLabel = isset($_SESSION['role']) ? 'Logout' : 'Login';
+$navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
