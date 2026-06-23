@@ -46,6 +46,20 @@ INSERT INTO `controllers` (`controller_id`, `model_name`, `description`, `price`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `controller_images`
+--
+
+CREATE TABLE `controller_images` (
+  `image_id` int(11) NOT NULL,
+  `controller_id` int(11) NOT NULL,
+  `image_path` varchar(255) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0,
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `preorders`
 --
 
@@ -92,6 +106,13 @@ ALTER TABLE `controllers`
   ADD PRIMARY KEY (`controller_id`);
 
 --
+-- Indexes for table `controller_images`
+--
+ALTER TABLE `controller_images`
+  ADD PRIMARY KEY (`image_id`),
+  ADD KEY `controller_id` (`controller_id`);
+
+--
 -- Indexes for table `preorders`
 --
 ALTER TABLE `preorders`
@@ -118,6 +139,12 @@ ALTER TABLE `controllers`
   MODIFY `controller_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `controller_images`
+--
+ALTER TABLE `controller_images`
+  MODIFY `image_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `preorders`
 --
 ALTER TABLE `preorders`
@@ -139,6 +166,12 @@ ALTER TABLE `users`
 ALTER TABLE `preorders`
   ADD CONSTRAINT `preorders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `preorders_ibfk_2` FOREIGN KEY (`controller_id`) REFERENCES `controllers` (`controller_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `controller_images`
+--
+ALTER TABLE `controller_images`
+  ADD CONSTRAINT `controller_images_ibfk_1` FOREIGN KEY (`controller_id`) REFERENCES `controllers` (`controller_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

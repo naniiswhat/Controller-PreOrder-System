@@ -37,7 +37,14 @@ $userCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM users");
 $orderCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM preorders");
 $controllerCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM controllers");
 $stockTotal = fetch_count($conn, "SELECT COALESCE(SUM(stock_quantity), 0) AS total FROM controllers");
-$controllers = fetch_rows($conn, "SELECT controller_id, model_name, description, stock_quantity, price FROM controllers ORDER BY controller_id");
+$controllers = fetch_rows(
+  $conn,
+  "SELECT c.controller_id, c.model_name, c.description, c.stock_quantity, c.price,
+          (SELECT ci.image_path FROM controller_images ci WHERE ci.controller_id = c.controller_id ORDER BY ci.sort_order, ci.image_id LIMIT 1) AS primary_image,
+          (SELECT COUNT(*) FROM controller_images ci WHERE ci.controller_id = c.controller_id) AS image_count
+   FROM controllers c
+   ORDER BY c.controller_id"
+);
 $orders = fetch_rows(
   $conn,
   "SELECT p.order_id, u.username, c.model_name, p.quantity, p.status
@@ -79,6 +86,9 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
       <?php if (isset($_GET["status"])): ?>
         <p class="form-message success">Update saved.</p>
       <?php endif; ?>
+      <?php if (isset($_GET["error"])): ?>
+        <p class="form-message error"><?php echo h($_GET["error"]); ?></p>
+      <?php endif; ?>
 
       <div class="stat-row">
         <div class="stat"><strong><?php echo $controllerCount; ?></strong><span>Controllers</span></div>
@@ -90,7 +100,7 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
       <div class="admin-grid">
         <section class="admin-panel">
           <h2>Add controller</h2>
-          <form action="../php/add_variant.php" method="post">
+          <form action="../php/add_variant.php" method="post" enctype="multipart/form-data">
             <div class="field">
               <label for="model">Model name</label>
               <input id="model" name="model_name" type="text" placeholder="Steam Controller Pro" required>
@@ -109,6 +119,11 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
               <label for="description">Description</label>
               <textarea id="description" name="description" placeholder="Short product description"></textarea>
             </div>
+            <div class="field">
+              <label for="product_images">Product images</label>
+              <input id="product_images" name="product_images[]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+              <small class="field-hint">Saved in assets/uploads/controllers/{product id}/ as controller-{product id}-{number}.</small>
+            </div>
             <button class="btn" type="submit" name="add_variant">Save product</button>
           </form>
         </section>
@@ -117,23 +132,26 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
           <h2>Products</h2>
           <table class="table">
             <thead>
-              <tr><th>Model</th><th>Stock</th><th>Price</th><th>Actions</th></tr>
+              <tr><th>Image</th><th>Model</th><th>Stock</th><th>Price</th><th>Actions</th></tr>
             </thead>
             <tbody>
               <?php if ($controllers): ?>
                 <?php foreach ($controllers as $controller): ?>
+                  <?php $imagePath = $controller['primary_image'] ?: 'assets/product-1_0.jpg'; ?>
                   <tr>
+                    <td><img class="product-thumb" src="<?php echo h($imagePath); ?>" alt=""></td>
                     <td><?php echo h($controller['model_name']); ?></td>
                     <td><?php echo h($controller['stock_quantity']); ?></td>
                     <td>RM<?php echo number_format((float) $controller['price'], 2); ?></td>
                     <td>
+                      <span class="small-link"><?php echo h($controller['image_count']); ?> image(s)</span>
                       <a href="../edit_stock.php?id=<?php echo h($controller['controller_id']); ?>">Edit</a>
                       <a href="../php/delete_variant.php?id=<?php echo h($controller['controller_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
                     </td>
                   </tr>
                 <?php endforeach; ?>
               <?php else: ?>
-                <tr><td colspan="4">No controllers found.</td></tr>
+                <tr><td colspan="5">No controllers found.</td></tr>
               <?php endif; ?>
             </tbody>
           </table>

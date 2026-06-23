@@ -9,6 +9,7 @@ function h($value)
 
 $controllerId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $controller = null;
+$images = [];
 $loadError = false;
 
 if ($controllerId) {
@@ -23,6 +24,22 @@ if ($controllerId) {
       $result = $statement->get_result();
       $controller = $result->fetch_assoc();
       $statement->close();
+
+      if ($controller) {
+        $imageStatement = $db->prepare('SELECT image_path FROM controller_images WHERE controller_id = ? ORDER BY sort_order, image_id');
+
+        if ($imageStatement) {
+          $imageStatement->bind_param('i', $controllerId);
+          $imageStatement->execute();
+          $imageResult = $imageStatement->get_result();
+
+          while ($imageRow = $imageResult->fetch_assoc()) {
+            $images[] = $imageRow['image_path'];
+          }
+
+          $imageStatement->close();
+        }
+      }
     } else {
       $loadError = true;
     }
@@ -39,6 +56,8 @@ $description = $controller && $controller['description']
   : 'This controller is not available right now.';
 $price = $controller ? 'RM' . number_format((float) $controller['price'], 2) : '';
 $stock = $controller ? (int) $controller['stock_quantity'] : 0;
+$images = $images ?: ['assets/product-1_0.jpg'];
+$imagePath = $images[0];
 $isAvailable = $controller && $stock > 0;
 $isCustomer = isset($_SESSION['role']) && $_SESSION['role'] === 'customer';
 $navLabel = isset($_SESSION['role']) ? 'Dashboard' : 'Login';
@@ -67,22 +86,15 @@ $navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
       <section class="product-detail-layout" aria-label="<?php echo $modelName; ?> details">
         <div class="product-gallery">
           <div class="product-thumbnails" aria-label="Product views">
-            <button class="thumb active" type="button" aria-label="Side view">
-              <img src="assets/product-1_0.jpg" alt="">
-            </button>
-            <button class="thumb thumb-wide" type="button" aria-label="Angled view">
-              <img src="assets/product-1_0.jpg" alt="">
-            </button>
-            <button class="thumb thumb-top" type="button" aria-label="Top view">
-              <img src="assets/product-1_0.jpg" alt="">
-            </button>
-            <button class="thumb thumb-detail" type="button" aria-label="Grip detail">
-              <img src="assets/product-1_0.jpg" alt="">
-            </button>
+            <?php foreach ($images as $index => $galleryImage): ?>
+              <button class="thumb <?php echo $index === 0 ? 'active' : ''; ?>" type="button" aria-label="Product image <?php echo h($index + 1); ?>">
+                <img src="<?php echo h($galleryImage); ?>" alt="">
+              </button>
+            <?php endforeach; ?>
           </div>
 
           <div class="product-stage">
-            <img src="assets/product-1_0.jpg" alt="<?php echo $modelName; ?>">
+            <img src="<?php echo h($imagePath); ?>" alt="<?php echo $modelName; ?>">
           </div>
 
           <div class="gallery-controls" aria-label="Gallery controls">

@@ -7,6 +7,37 @@ links.forEach((link) => {
   }
 });
 
+const gallery = document.querySelector(".product-gallery");
+
+if (gallery) {
+  const stageImage = gallery.querySelector(".product-stage img");
+  const thumbs = Array.from(gallery.querySelectorAll(".thumb"));
+  const [previousButton, nextButton] = Array.from(gallery.querySelectorAll(".gallery-controls button"));
+  let activeIndex = Math.max(0, thumbs.findIndex((thumb) => thumb.classList.contains("active")));
+
+  const setActiveImage = (nextIndex) => {
+    if (!thumbs.length || !stageImage) {
+      return;
+    }
+
+    activeIndex = (nextIndex + thumbs.length) % thumbs.length;
+
+    thumbs.forEach((thumb, index) => {
+      thumb.classList.toggle("active", index === activeIndex);
+    });
+
+    const image = thumbs[activeIndex].querySelector("img");
+    stageImage.src = image.src;
+  };
+
+  thumbs.forEach((thumb, index) => {
+    thumb.addEventListener("click", () => setActiveImage(index));
+  });
+
+  previousButton?.addEventListener("click", () => setActiveImage(activeIndex - 1));
+  nextButton?.addEventListener("click", () => setActiveImage(activeIndex + 1));
+}
+
 const staffPage = document.querySelector(".staff-page");
 
 if (staffPage) {

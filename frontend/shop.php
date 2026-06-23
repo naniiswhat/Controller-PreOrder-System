@@ -8,7 +8,13 @@ function h($value)
 }
 
 $controllers = [];
-$result = mysqli_query($conn, "SELECT controller_id, model_name, description, price, stock_quantity FROM controllers ORDER BY controller_id");
+$result = mysqli_query(
+  $conn,
+  "SELECT c.controller_id, c.model_name, c.description, c.price, c.stock_quantity,
+          (SELECT ci.image_path FROM controller_images ci WHERE ci.controller_id = c.controller_id ORDER BY ci.sort_order, ci.image_id LIMIT 1) AS primary_image
+   FROM controllers c
+   ORDER BY c.controller_id"
+);
 
 if ($result) {
   while ($row = mysqli_fetch_assoc($result)) {
@@ -46,10 +52,11 @@ $navHref = isset($_SESSION['role']) ? '../home.php' : 'login.php';
 
       <div class="shop-grid">
         <?php if ($controllers): ?>
-          <?php foreach ($controllers as $index => $controller): ?>
+          <?php foreach ($controllers as $controller): ?>
+            <?php $imagePath = $controller['primary_image'] ?: 'assets/product-1_0.jpg'; ?>
             <a class="product" href="product.php?id=<?php echo h($controller['controller_id']); ?>">
               <div class="product-image">
-                <img src="<?php echo $index === 0 ? 'assets/product-1_0.jpg' : 'assets/product-placeholder.svg'; ?>" alt="<?php echo h($controller['model_name']); ?>">
+                <img src="<?php echo h($imagePath); ?>" alt="<?php echo h($controller['model_name']); ?>">
               </div>
               <h2><?php echo h($controller['model_name']); ?></h2>
               <p><?php echo h($controller['description'] ?: 'Controller preorder item.'); ?></p>

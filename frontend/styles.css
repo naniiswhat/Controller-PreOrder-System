@@ -111,7 +111,7 @@ main {
   display: grid;
   min-height: 100vh;
   place-items: center;
-  padding: 120px 42px 44px;
+  padding: 0px 42px 44px;
   isolation: isolate;
 }
 
@@ -178,7 +178,7 @@ main {
 
 .controller-shadow-text {
   position: absolute;
-  top: 15%;
+  top: 10%;
   z-index: 0;
   color: rgba(225, 197, 100, 1);
   font-size: 126px;
@@ -806,6 +806,12 @@ main {
   font-weight: 700;
 }
 
+.field-hint {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .field input,
 .field select,
 .field textarea {
@@ -918,6 +924,16 @@ main {
   padding: 9px 0;
   border-bottom: 1px solid var(--line);
   text-align: left;
+}
+
+.product-thumb {
+  display: block;
+  width: 54px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--soft);
 }
 
 .staff-grid {

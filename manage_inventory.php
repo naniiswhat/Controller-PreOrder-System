@@ -9,10 +9,11 @@ if (!isset($_SESSION['role'])) {
 
 <div style="background:#f4f4f4; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #ddd;">
     <h4>Add New Controller Variant</h4>
-    <form action="php/add_variant.php" method="POST">
+    <form action="php/add_variant.php" method="POST" enctype="multipart/form-data">
         <input type="text" name="model_name" placeholder="Model Name (e.g. Pro-X)" required style="padding:8px; width:200px;">
         <input type="number" step="0.01" name="price" placeholder="Price (RM)" required style="padding:8px; width:100px;">
         <input type="number" name="stock" placeholder="Stock" required style="padding:8px; width:80px;">
+        <input type="file" name="product_images[]" accept="image/jpeg,image/png,image/webp,image/gif" multiple style="padding:8px;">
         <button type="submit" name="add_variant" style="padding:8px 15px; cursor:pointer;">Add Variant</button>
     </form>
 </div>

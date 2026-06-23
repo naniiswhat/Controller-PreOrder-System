@@ -2,6 +2,7 @@
 session_start();
 // Pastikan laluan ke db_connect.php betul (keluar dari folder php/ dan masuk ke includes/)
 include "../includes/db_connect.php";
+require_once __DIR__ . "/image_upload.php";
 
 // 1. Keselamatan: Hanya Admin atau Staff boleh tambah variant
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'staff')) {
@@ -26,6 +27,8 @@ if (isset($_POST['add_variant'])) {
     $price = $_POST['price'];
     $stock = $_POST['stock'];
 
+    mysqli_begin_transaction($conn);
+
     // 3. Masukkan data menggunakan Prepared Statement (Mencegah SQL Injection)
     $stmt = mysqli_stmt_init($conn);
     $sql = "INSERT INTO controllers (model_name, description, price, stock_quantity) VALUES (?, ?, ?, ?)";
@@ -35,13 +38,31 @@ if (isset($_POST['add_variant'])) {
         mysqli_stmt_bind_param($stmt, "ssdi", $model_name, $description, $price, $stock);
         
         if (mysqli_stmt_execute($stmt)) {
-            // Berjaya: Redirect balik ke dashboard dengan status sukses
-            header("Location: " . inventory_redirect() . "?status=success");
+            $controller_id = mysqli_insert_id($conn);
+            $saved_paths = [];
+
+            try {
+                $saved_paths = save_controller_images($_FILES['product_images'] ?? null, $controller_id, $conn);
+
+                mysqli_commit($conn);
+
+                // Berjaya: Redirect balik ke dashboard dengan status sukses
+                header("Location: " . inventory_redirect() . "?status=success");
+            } catch (RuntimeException $error) {
+                foreach ($saved_paths as $path) {
+                    delete_controller_image($path);
+                }
+
+                mysqli_rollback($conn);
+                header("Location: " . inventory_redirect() . "?error=" . rawurlencode($error->getMessage()));
+            }
         } else {
+            mysqli_rollback($conn);
             echo "Gagal menyimpan data: " . mysqli_error($conn);
         }
         mysqli_stmt_close($stmt);
     } else {
+        mysqli_rollback($conn);
         echo "Ralat pada query SQL: " . mysqli_error($conn);
     }
 } else {

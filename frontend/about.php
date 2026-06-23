@@ -23,7 +23,7 @@
         <p>This system is a simple front desk for customers, staff, and admins to handle controller pre orders without extra noise.</p>
       </div>
       <div class="image-placeholder">
-        <img src="assets/product-placeholder.svg" alt="Controller placeholder">
+        <img src="assets/product-1_0.jpg" alt="Controller product">
       </div>
     </section>
 
