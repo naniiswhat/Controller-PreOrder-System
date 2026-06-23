@@ -27,7 +27,7 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="controller-stage" aria-hidden="true">
           <p class="launch-kicker">New drop open now</p>
-          <span class="controller-shadow-text">Steam Controller</span>
+          <span class="controller-shadow-text">STEAM</span>
           <img class="floating-controller" src="assets/front.png" alt="">
       </div>
       <a class="btn preorder-launch-btn" href="shop.php">Pre-order now</a>

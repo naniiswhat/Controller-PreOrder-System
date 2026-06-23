@@ -6,7 +6,7 @@ $loginPage = "../frontend/login.php";
 $homePage = "../home.php";
 
 // check form submission data properties w/ isset function
-if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])) {
+if (isset($_POST['email']) && isset($_POST['password'])) {
 
     // verification filter
     function test_input($data) {
@@ -19,7 +19,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
     // process incoming data packages using the validation filter defined
     $email = test_input($_POST['email']);
     $password = test_input($_POST['password']);
-    $role = test_input($_POST['role']);
 
     // validate email parameter property status - redirect to index.php if empty
     if (empty($email)) {
@@ -61,8 +60,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
                 $stored_password = $row['password'];
                 $password_matches = password_verify($password, $stored_password) || hash_equals(md5($password), $stored_password);
 
-                // verify password and db user role match the user's dropdown input selection
-                if ($password_matches && $row['role'] == $role) {
+                // verify password and redirect based on the saved account role
+                if ($password_matches) {
                     
                     // assign authorization parameters into persistent session tracking arrays
                     $_SESSION['id'] = $row['user_id'];
@@ -71,10 +70,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['role'])
                     $_SESSION['username'] = $row['email'];
                     
                     header("Location: {$homePage}");
-                    exit();
-
-                } else if ($password_matches) { // redirect if role strings mismatch
-                    header("Location: {$loginPage}?error=Incorrect selected role for this account");
                     exit();
                 } else {
                     header("Location: {$loginPage}?error=Incorrect email address or password sequence");

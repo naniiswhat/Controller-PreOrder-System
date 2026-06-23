@@ -14,13 +14,12 @@
     <form class="auth-form" action="../php/process-register.php" method="post">
       <a class="auth-close" href="index.php" aria-label="Go to homepage">×</a>
       <h1>Register</h1>
-      <p class="small-link">Create a pre order account.</p>
       <?php if (isset($_GET["error"])): ?>
         <p class="form-message error"><?php echo htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8"); ?></p>
       <?php endif; ?>
       <div class="field">
         <label for="username">Username</label>
-        <input id="username" name="username" type="text" placeholder="Username" required>
+        <input id="username" name="username" type="text" placeholder="Username" pattern="[A-Za-z0-9]+" title="Use letters and numbers only." required>
       </div>
       <div class="field">
         <label for="email">Email</label>
@@ -28,9 +27,10 @@
       </div>
       <div class="field">
         <label for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="Password" required>
+        <input id="password" name="password" type="password" placeholder="Password" minlength="8" pattern="[A-Za-z0-9]+" title="Use at least 8 letters or numbers. Special characters are not allowed." required>
+        <span class="field-hint">Minimum 8 characters. Letters and numbers only.</span>
       </div>
-      <button class="btn" type="submit">Continue</button>
+      <button class="btn" type="submit">Register</button>
       <a class="small-link" href="login.php">Login</a>
     </form>
   </main>

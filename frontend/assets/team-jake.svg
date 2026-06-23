@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Jake Mitchell portrait</title>
+  <desc id="desc">Stylized team portrait on a neutral studio background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#aaa59d"/>
+      <stop offset="1" stop-color="#706b64"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6ba93"/>
+      <stop offset="1" stop-color="#b6724e"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="361" r="138" fill="url(#skin)"/>
+  <path d="M256 340c18-91 77-145 157-146 76 0 130 40 159 120-71-38-164-45-316 26Z" fill="#33251f"/>
+  <path d="M151 1000c20-225 109-356 249-356s229 131 249 356H151Z" fill="#14161a"/>
+  <path d="M291 1000V722h218v278H291Z" fill="#f4f1ec"/>
+  <path d="M300 734c62 34 137 34 200 0v266H300Z" fill="#22252b"/>
+  <path d="M318 441c40 43 124 43 164 0" fill="none" stroke="#754432" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="348" cy="360" r="12" fill="#1a1614"/>
+  <circle cx="452" cy="360" r="12" fill="#1a1614"/>
+</svg>

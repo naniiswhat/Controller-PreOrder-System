@@ -31,6 +31,15 @@ if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['passwor
     if (empty($username) || empty($email) || empty($password)) {
         header("Location: {$registerPage}?error=All fields are required");
         exit();
+    } else if (!preg_match('/^[A-Za-z0-9]+$/', $username)) {
+        header("Location: {$registerPage}?error=Username can only use letters and numbers");
+        exit();
+    } else if (!preg_match('/^[A-Za-z0-9]+$/', $password)) {
+        header("Location: {$registerPage}?error=Password can only use letters and numbers");
+        exit();
+    } else if (strlen($password) < 8) {
+        header("Location: {$registerPage}?error=Password must be at least 8 characters");
+        exit();
     } else {
         
         // step 1: check if the email already exists in the database using a secure prepared statement
@@ -53,8 +62,8 @@ if (isset($_POST['username']) && isset($_POST['email']) && isset($_POST['passwor
             exit();
         } else {
             
-            // step 2: the email is unique, so let's hash the password using md5 to match our system rules
-            $hashed_password = md5($password);
+            // step 2: the email is unique, so let's hash the password securely
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // step 3: insert the new user into the database securely
             $insert_sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";

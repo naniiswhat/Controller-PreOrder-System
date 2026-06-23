@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Ryan Mitchell portrait</title>
+  <desc id="desc">Stylized team portrait on a neutral studio background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#b9b2a8"/>
+      <stop offset="1" stop-color="#7d756d"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e5b48b"/>
+      <stop offset="1" stop-color="#b97954"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="357" r="142" fill="url(#skin)"/>
+  <path d="M263 343c22-116 94-178 198-151 50 13 85 42 101 88-42-24-89-33-141-20-50 12-103 40-158 83Z" fill="#2c211b"/>
+  <path d="M164 1000c9-237 103-382 236-382s227 145 236 382H164Z" fill="#101113"/>
+  <path d="M272 1000V791c0-74 58-132 128-132s128 58 128 132v209H272Z" fill="#191b1f"/>
+  <path d="M313 438c39 50 135 50 174 0" fill="none" stroke="#6f3c2b" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="344" cy="355" r="13" fill="#1b1715"/>
+  <circle cx="456" cy="355" r="13" fill="#1b1715"/>
+</svg>

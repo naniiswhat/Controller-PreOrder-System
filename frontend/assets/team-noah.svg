@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Noah Tan portrait</title>
+  <desc id="desc">Stylized team portrait on a neutral studio background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#aab8bd"/>
+      <stop offset="1" stop-color="#69787d"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8a178"/>
+      <stop offset="1" stop-color="#a96849"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="366" r="136" fill="url(#skin)"/>
+  <path d="M259 330c22-89 80-136 154-136 68 0 119 34 152 102-88-16-181-5-306 34Z" fill="#15120f"/>
+  <path d="M154 1000c15-224 105-359 246-359s231 135 246 359H154Z" fill="#151719"/>
+  <path d="M305 1000V744h190v256H305Z" fill="#e7ecef"/>
+  <path d="M318 444c39 39 125 39 164 0" fill="none" stroke="#72412f" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="348" cy="362" r="12" fill="#151311"/>
+  <circle cx="452" cy="362" r="12" fill="#151311"/>
+</svg>

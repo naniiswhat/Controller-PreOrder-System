@@ -13,8 +13,7 @@
     </div>
     <form class="auth-form" action="../php/check-login.php" method="post">
       <a class="auth-close" href="index.php" aria-label="Go to homepage">×</a>
-      <h1>Welcome Back</h1>
-      <p class="small-link">Login to manage or place pre orders.</p>
+      <h1>Log in</h1>
       <?php if (isset($_GET["error"])): ?>
         <p class="form-message error"><?php echo htmlspecialchars($_GET["error"], ENT_QUOTES, "UTF-8"); ?></p>
       <?php endif; ?>
@@ -29,16 +28,8 @@
         <label for="password">Password</label>
         <input id="password" name="password" type="password" placeholder="Password" required>
       </div>
-      <div class="field">
-        <label for="role">Role</label>
-        <select id="role" name="role" required>
-          <option value="customer">Customer Portal</option>
-          <option value="staff">Staff / Inventory</option>
-          <option value="admin">Admin Override</option>
-        </select>
-      </div>
       <button class="btn" type="submit">Login</button>
-      <a class="small-link" href="register.php">Register</a>
+      <a class="small-link register-link" href="register.php">Register</a>
     </form>
   </main>
 
