@@ -70,11 +70,9 @@ $lowStockCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM controllers W
 </head>
 <body data-page="staff">
   <nav class="top-nav" aria-label="Main navigation">
-    <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo.svg" alt="">
+    <a class="brand" href="dashboard_staff.php" aria-label="Staff Home">
+      <img src="assets/logo.svg" alt="Logo">
     </a>
-    <a href="shop.php" data-page="shop">Shop</a>
-    <a href="about.php" data-page="about">About</a>
     <a href="../logout.php" data-page="login">Logout</a>
   </nav>
 
@@ -85,7 +83,6 @@ $lowStockCount = fetch_count($conn, "SELECT COUNT(*) AS total FROM controllers W
           <h1>Staff page</h1>
           <p class="small-link">Welcome <?php echo h($_SESSION['name'] ?? 'staff'); ?>. Review submitted pre-orders, update order progress, and adjust stock levels.</p>
         </div>
-        <a class="btn secondary" href="shop.php">View shop</a>
       </header>
 
       <?php if (isset($_GET["status"])): ?>

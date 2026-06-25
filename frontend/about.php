@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+//* lock out admin and staff users from about.php
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header("Location: dashboard_admin.php");
+        exit();
+    } else if ($_SESSION['role'] === 'staff') {
+        header("Location: dashboard_staff.php");
+        exit();
+    }
+}
+
 $navLabel = isset($_SESSION['role']) ? 'Logout' : 'Login';
 $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
 ?>
@@ -18,6 +29,11 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
       <img src="assets/logo.svg" alt="">
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
+
+    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'customer'): ?>
+        <a href="dashboard_customer.php">My Orders</a>
+    <?php endif; ?>
+
     <a href="about.php" data-page="about">About</a>
     <a href="<?php echo $navHref; ?>" data-page="login"><?php echo $navLabel; ?></a>
   </nav>
@@ -69,29 +85,29 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
 
       <div class="team-grid">
         <article class="team-member">
-          <img src="assets/team-ryan.svg" alt="Ryan Mitchell">
-          <h3>Ryan Mitchell</h3>
+          <img src="assets/patrickpic.jpg" alt="Yee Ching Yang">
+          <h3>Yee Ching Yang</h3>
           <p>Founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-madison.svg" alt="Madison Clarke">
-          <h3>Madison Clarke</h3>
-          <p>Drop Marketing</p>
+          <img src="assets/danielpic.jpg" alt="Daniel Iman">
+          <h3>Daniel Iman</h3>
+          <p>Co-founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-jake.svg" alt="Jake Mitchell">
-          <h3>Jake Mitchell</h3>
-          <p>Co Founder</p>
+          <img src="assets/rafiqpic.jpg" alt="Rafiq">
+          <h3>Abdurrafiq</h3>
+          <p>Co-founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-ava.svg" alt="Ava Bennett">
-          <h3>Ava Bennett</h3>
-          <p>Operations Lead</p>
+          <img src="assets/hazimpic.jpg" alt="Hazim">
+          <h3>Hazim</h3>
+          <p>Co-founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-noah.svg" alt="Noah Tan">
-          <h3>Noah Tan</h3>
-          <p>Support Lead</p>
+          <img src="assets/praveinpic.jpg" alt="Pravein">
+          <h3>Pravein</h3>
+          <p>Co-founder</p>
         </article>
       </div>
     </section>

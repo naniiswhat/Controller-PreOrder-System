@@ -1,5 +1,17 @@
 <?php
 session_start();
+
+//* lock out admin and staff users from shop.php
+if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header("Location: dashboard_admin.php");
+        exit();
+    } else if ($_SESSION['role'] === 'staff') {
+        header("Location: dashboard_staff.php");
+        exit();
+    }
+}
+
 require_once __DIR__ . '/../includes/db_connect.php';
 
 function h($value)
@@ -39,6 +51,11 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
       <img src="assets/logo.svg" alt="">
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
+
+    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'customer'): ?>
+        <a href="dashboard_customer.php">My Orders</a>
+    <?php endif; ?>
+
     <a href="about.php" data-page="about">About</a>
     <a href="<?php echo h($navHref); ?>" data-page="login"><?php echo h($navLabel); ?></a>
   </nav>

@@ -77,6 +77,11 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
       <img src="assets/logo.svg" alt="">
     </a>
     <a href="shop.php" data-page="shop">Shop</a>
+
+    <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'customer'): ?>
+        <a href="dashboard_customer.php">My Orders</a>
+    <?php endif; ?>
+    
     <a href="about.php" data-page="about">About</a>
     <a href="<?php echo h($navHref); ?>" data-page="login"><?php echo h($navLabel); ?></a>
   </nav>

@@ -65,11 +65,9 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
 </head>
 <body data-page="admin">
   <nav class="top-nav" aria-label="Main navigation">
-    <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo.svg" alt="">
+    <a class="brand" href="dashboard_admin.php" aria-label="Admin Home">
+      <img src="assets/logo.svg" alt="Logo">
     </a>
-    <a href="shop.php" data-page="shop">Shop</a>
-    <a href="about.php" data-page="about">About</a>
     <a href="../logout.php" data-page="login">Logout</a>
   </nav>
 
