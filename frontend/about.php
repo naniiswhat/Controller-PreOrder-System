@@ -70,27 +70,27 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
       <div class="team-grid">
         <article class="team-member">
           <img src="assets/team-ryan.svg" alt="Ryan Mitchell">
-          <h3>Ryan Mitchell</h3>
+          <h3>Yee Ching Yang</h3>
           <p>Founder</p>
         </article>
         <article class="team-member">
           <img src="assets/team-madison.svg" alt="Madison Clarke">
-          <h3>Madison Clarke</h3>
+          <h3>Daniel Iman Haqimie Bin Yusuff</h3>
           <p>Drop Marketing</p>
         </article>
         <article class="team-member">
           <img src="assets/team-jake.svg" alt="Jake Mitchell">
-          <h3>Jake Mitchell</h3>
+          <h3>Pravein A/L Letchuman</h3>
           <p>Co Founder</p>
         </article>
         <article class="team-member">
           <img src="assets/team-ava.svg" alt="Ava Bennett">
-          <h3>Ava Bennett</h3>
+          <h3>Abdurrafiq Bin Zakaria</h3>
           <p>Operations Lead</p>
         </article>
         <article class="team-member">
           <img src="assets/team-noah.svg" alt="Noah Tan">
-          <h3>Noah Tan</h3>
+          <h3>Muhammad Hazim Bin Zulkanain</h3>
           <p>Support Lead</p>
         </article>
       </div>
