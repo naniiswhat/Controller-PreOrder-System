@@ -22,7 +22,7 @@ if (!$row) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <body>
     <h3>Edit User: <?php echo htmlspecialchars($row['username']); ?></h3>
     <form action="php/update_user.php" method="POST">

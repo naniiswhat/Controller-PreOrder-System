@@ -23,14 +23,17 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
   </nav>
 
   <main class="home-main">
-    <section class="launch-hero" aria-labelledby="launch-title">
+    <section class="launch-hero" aria-label="Steam Controller preorder">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="controller-stage" aria-hidden="true">
           <p class="launch-kicker">New drop open now</p>
-          <span class="controller-shadow-text">STEAM</span>
           <img class="floating-controller" src="assets/front.png" alt="">
       </div>
-      <a class="btn preorder-launch-btn" href="shop.php">Pre-order now</a>
+      <div class="launch-info">
+        <h1>Steam Controller</h1>
+        <p>Reserve the next controller drop before stock goes live.</p>
+        <a class="btn preorder-launch-btn" href="shop.php">Pre-order now</a>
+      </div>
     </section>
   </main>
 

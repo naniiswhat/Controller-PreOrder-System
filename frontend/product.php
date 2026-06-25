@@ -120,18 +120,6 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
               <strong class="detail-price"><?php echo $price; ?></strong>
             </header>
 
-            <section class="option-group" aria-labelledby="color-title">
-              <div class="option-head">
-                <h2 id="color-title">Color</h2>
-                <span><?php echo $stock; ?> available</span>
-              </div>
-              <div class="option-grid compact">
-                <button class="option-pill selected" type="button">Carbon</button>
-                <button class="option-pill" type="button">Cloud</button>
-                <button class="option-pill" type="button">Pulse</button>
-              </div>
-            </section>
-
             <?php if (isset($_GET["error"])): ?>
               <p class="form-message error"><?php echo h($_GET["error"]); ?></p>
             <?php endif; ?>

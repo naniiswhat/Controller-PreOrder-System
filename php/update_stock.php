@@ -1,6 +1,6 @@
 <?php
 session_start();
-// Pastikan laluan ini betul (keluar dari folder php/ baru masuk ke includes/)
+
 include "../includes/db_connect.php"; 
 require_once __DIR__ . "/image_upload.php";
 
@@ -20,25 +20,43 @@ function inventory_redirect() {
 if (isset($_POST['update_product'])) {
     $id = $_POST['id'];
     $name = $_POST['model_name'];
+    $description = $_POST['description'] ?? null;
     $price = $_POST['price'];
     $stock = $_POST['stock'];
     $saved_paths = [];
 
-    // Prepared Statement untuk keselamatan
+    if (isset($_POST['delete_images']) && is_array($_POST['delete_images'])) {
+        foreach ($_POST['delete_images'] as $img_id) {
+            $del_stmt = mysqli_stmt_init($conn);
+            if (mysqli_stmt_prepare($del_stmt, "DELETE FROM controller_images WHERE image_id=?")) {
+                mysqli_stmt_bind_param($del_stmt, "i", $img_id);
+                mysqli_stmt_execute($del_stmt);
+            }
+        }
+    }
+
+    // safety
     $stmt = mysqli_stmt_init($conn);
-    $sql = "UPDATE controllers SET model_name=?, price=?, stock_quantity=? WHERE controller_id=?";
+    $updates_description = $description !== null;
+    $sql = $updates_description
+        ? "UPDATE controllers SET model_name=?, description=?, price=?, stock_quantity=? WHERE controller_id=?"
+        : "UPDATE controllers SET model_name=?, price=?, stock_quantity=? WHERE controller_id=?";
 
     mysqli_begin_transaction($conn);
     
     if (mysqli_stmt_prepare($stmt, $sql)) {
-        mysqli_stmt_bind_param($stmt, "sdii", $name, $price, $stock, $id);
+        if ($updates_description) {
+            mysqli_stmt_bind_param($stmt, "ssdii", $name, $description, $price, $stock, $id);
+        } else {
+            mysqli_stmt_bind_param($stmt, "sdii", $name, $price, $stock, $id);
+        }
         
         if (mysqli_stmt_execute($stmt)) {
             try {
                 $saved_paths = save_controller_images($_FILES['product_images'] ?? null, $id, $conn);
                 mysqli_commit($conn);
 
-                // Berjaya, kembali ke halaman inventori
+                // redirect inventory
                 header("Location: " . inventory_redirect() . "?status=updated");
                 exit();
             } catch (RuntimeException $error) {
@@ -59,6 +77,6 @@ if (isset($_POST['update_product'])) {
         echo "Error preparing statement: " . mysqli_error($conn);
     }
 } else {
-    echo "Borang tidak dihantar dengan betul.";
+    echo "Borang not sent correctly.";
 }
 ?>

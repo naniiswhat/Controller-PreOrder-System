@@ -56,7 +56,11 @@ include_once __DIR__ . "/../includes/db_connect.php";
         echo "<tr>
                 <td>{$row['model_name']}</td>
                 <td>{$row['stock_quantity']}</td>
-                <td><a href='edit_products.php?id={$row['controller_id']}'>Update Stock</a></td>
+                <td>
+                    <a href='../edit_product.php?id={$row['controller_id']}' aria-label='Edit product' title='Edit' style='display:inline-flex; width:34px; height:34px; align-items:center; justify-content:center; border:1px solid #ddd; border-radius:8px; vertical-align:middle;'>
+                        <img src='../frontend/assets/icons/square-pen.svg' alt='' style='width:17px; height:17px; display:block;'>
+                    </a>
+                </td>
               </tr>";
     }
     ?>

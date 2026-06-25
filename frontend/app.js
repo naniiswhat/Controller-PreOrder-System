@@ -106,6 +106,107 @@ transitionTargets.forEach((link) => {
   });
 });
 
+const aboutProof = document.querySelector(".about-proof");
+const aboutTeam = document.querySelector(".about-team");
+
+if (aboutProof || aboutTeam) {
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.body.classList.add("about-animate-ready");
+
+  const formatNumber = (value, decimals) => {
+    return Number(value).toLocaleString("en-US", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+  };
+
+  const getCounterParts = (text) => {
+    const match = text.match(/^(.*?)(\d[\d,]*(?:\.\d+)?)(.*)$/);
+
+    if (!match) {
+      return null;
+    }
+
+    const [, prefix, digits, suffix] = match;
+    const decimals = digits.includes(".") ? digits.split(".")[1].length : 0;
+
+    return {
+      prefix,
+      suffix,
+      decimals,
+      target: Number(digits.replace(/,/g, "")),
+    };
+  };
+
+  const animateCounter = (counter) => {
+    const parts = getCounterParts(counter.dataset.targetText || counter.textContent.trim());
+
+    if (!parts || Number.isNaN(parts.target)) {
+      return;
+    }
+
+    if (prefersReducedMotion) {
+      counter.textContent = `${parts.prefix}${formatNumber(parts.target, parts.decimals)}${parts.suffix}`;
+      return;
+    }
+
+    const duration = 1300;
+    const startTime = performance.now();
+
+    const tick = (currentTime) => {
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const easedProgress = 1 - Math.pow(1 - progress, 3);
+      const currentValue = parts.target * easedProgress;
+      counter.textContent = `${parts.prefix}${formatNumber(currentValue, parts.decimals)}${parts.suffix}`;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+        return;
+      }
+
+      counter.textContent = `${parts.prefix}${formatNumber(parts.target, parts.decimals)}${parts.suffix}`;
+    };
+
+    counter.textContent = `${parts.prefix}${formatNumber(0, parts.decimals)}${parts.suffix}`;
+    requestAnimationFrame(tick);
+  };
+
+  const revealSection = (section) => {
+    section.classList.add("is-visible");
+
+    if (section === aboutProof) {
+      section.querySelectorAll(".proof-stats dd").forEach(animateCounter);
+    }
+  };
+
+  document.querySelectorAll(".proof-stats dd").forEach((counter) => {
+    counter.dataset.targetText = counter.textContent.trim();
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          revealSection(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        rootMargin: "0px 0px -18% 0px",
+        threshold: 0.2,
+      }
+    );
+
+    [aboutProof, aboutTeam].filter(Boolean).forEach((section) => observer.observe(section));
+  } else {
+    [aboutProof, aboutTeam].filter(Boolean).forEach(revealSection);
+  }
+}
+
 const gallery = document.querySelector(".product-gallery");
 
 if (gallery) {
