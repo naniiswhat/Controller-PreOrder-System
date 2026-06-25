@@ -1,19 +1,12 @@
 <?php
 session_start();
 include "includes/db_connect.php";
-
-// rolebased access control
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: frontend/login.php");
     exit();
 }
-
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-
-if (!$id) {
-    header("Location: home.php");
-    exit();
-}
+if (!$id) { header("Location: frontend/dashboard_admin.php"); exit(); }
 
 $stmt = mysqli_stmt_init($conn);
 mysqli_stmt_prepare($stmt, "SELECT * FROM preorders WHERE order_id=?");
@@ -21,59 +14,65 @@ mysqli_stmt_bind_param($stmt, "i", $id);
 mysqli_stmt_execute($stmt);
 $row = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 
-if (!$row) {
-    header("Location: home.php");
-    exit();
-}
-
-function h($value)
-{
-    return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-}
+if (!$row) { header("Location: frontend/dashboard_admin.php"); exit(); }
+function h($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); }
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Order Full Override</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edit Order | Controller Pre Order System</title>
+    <link rel="stylesheet" href="frontend/styles.css">
 </head>
-<body class="bg-light">
-    <div class="container my-5 d-flex justify-content-center">
-        <div class="card shadow p-4 w-100" style="max-width: 500px;">
-            <h3 class="mb-4 text-center">Edit Order Parameters</h3>
-            <form action="php/manage-orders.php" method="POST">
+<body data-page="admin-edit">
+    <nav class="top-nav" aria-label="Backend navigation">
+        <a class="brand" href="frontend/dashboard_admin.php">
+            <img src="frontend/assets/logo.svg" alt="Logo">
+        </a>
+        <a href="logout.php">Logout</a>
+    </nav>
+    <main>
+        <section class="page backend-edit-page">
+            <header class="admin-header">
+                <div>
+                    <h1>Edit order</h1>
+                    <p class="small-link">Order #PO-<?php echo h($row['order_id']); ?> parameter override.</p>
+                </div>
+                <a class="btn secondary" href="frontend/dashboard_admin.php">Back to dashboard</a>
+            </header>
+            <form class="backend-edit-grid" action="php/manage-orders.php" method="POST">
                 <input type="hidden" name="id" value="<?php echo h($row['order_id']); ?>">
-                
-                <div class="mb-3">
-                    <label class="form-label">User ID:</label>
-                    <input type="text" class="form-control" name="user_id" value="<?php echo h($row['user_id']); ?>" required>
+                <section class="admin-panel backend-edit-main" style="grid-column: 1 / -1;">
+                    <div class="form-row">
+                        <div class="field">
+                            <label>User ID</label>
+                            <input type="text" name="user_id" value="<?php echo h($row['user_id']); ?>" required>
+                        </div>
+                        <div class="field">
+                            <label>Controller ID</label>
+                            <input type="text" name="controller_id" value="<?php echo h($row['controller_id']); ?>" required>
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top: 14px;">
+                        <div class="field">
+                            <label>Quantity</label>
+                            <input type="number" name="quantity" value="<?php echo h($row['quantity']); ?>" required>
+                        </div>
+                        <div class="field">
+                            <label>Status</label>
+                            <select name="status">
+                                <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
+                                <option value="processing" <?php if($row['status']=='processing') echo 'selected'; ?>>Processing</option>
+                                <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
+                                <option value="cancelled" <?php if($row['status']=='cancelled') echo 'selected'; ?>>Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+                <div class="backend-actions" style="grid-column: 1 / -1;">
+                    <button type="submit" name="update_full_order" class="btn">Save All Changes</button>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Controller ID:</label>
-                    <input type="text" class="form-control" name="controller_id" value="<?php echo h($row['controller_id']); ?>" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Quantity:</label>
-                    <input type="number" class="form-control" name="quantity" value="<?php echo h($row['quantity']); ?>" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">Status:</label>
-                    <select name="status" class="form-select">
-                        <option value="pending" <?php if($row['status']=='pending') echo 'selected'; ?>>Pending</option>
-                        <option value="processing" <?php if($row['status']=='processing') echo 'selected'; ?>>Processing</option>
-                        <option value="shipped" <?php if($row['status']=='shipped') echo 'selected'; ?>>Shipped</option>
-                        <option value="cancelled" <?php if($row['status']=='cancelled') echo 'selected'; ?>>Cancelled</option>
-                    </select>
-                </div>
-                
-                <button type="submit" name="update_full_order" class="btn btn-success w-100 mb-2">Save All Changes</button>
-                <a href="home.php" class="btn btn-outline-secondary w-100">Cancel Override</a>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>

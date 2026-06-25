@@ -70,8 +70,6 @@ if ($image_stmt) {
         <a class="brand" href="frontend/dashboard_admin.php" aria-label="Admin dashboard">
             <img src="frontend/assets/logo.svg" alt="">
         </a>
-        <a href="<?php echo h(inventory_path()); ?>">Dashboard</a>
-        <a href="add_controller.php">Add product</a>
         <a href="logout.php">Logout</a>
     </nav>
 
