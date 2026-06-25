@@ -20,6 +20,7 @@ function inventory_redirect() {
 if (isset($_POST['update_product'])) {
     $id = $_POST['id'];
     $name = $_POST['model_name'];
+    $description = $_POST['description'] ?? null;
     $price = $_POST['price'];
     $stock = $_POST['stock'];
     $saved_paths = [];
@@ -36,12 +37,19 @@ if (isset($_POST['update_product'])) {
 
     // safety
     $stmt = mysqli_stmt_init($conn);
-    $sql = "UPDATE controllers SET model_name=?, price=?, stock_quantity=? WHERE controller_id=?";
+    $updates_description = $description !== null;
+    $sql = $updates_description
+        ? "UPDATE controllers SET model_name=?, description=?, price=?, stock_quantity=? WHERE controller_id=?"
+        : "UPDATE controllers SET model_name=?, price=?, stock_quantity=? WHERE controller_id=?";
 
     mysqli_begin_transaction($conn);
     
     if (mysqli_stmt_prepare($stmt, $sql)) {
-        mysqli_stmt_bind_param($stmt, "sdii", $name, $price, $stock, $id);
+        if ($updates_description) {
+            mysqli_stmt_bind_param($stmt, "ssdii", $name, $description, $price, $stock, $id);
+        } else {
+            mysqli_stmt_bind_param($stmt, "sdii", $name, $price, $stock, $id);
+        }
         
         if (mysqli_stmt_execute($stmt)) {
             try {

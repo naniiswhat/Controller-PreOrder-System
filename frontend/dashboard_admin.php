@@ -99,37 +99,16 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
 
       <div class="admin-grid">
         <section class="admin-panel">
-          <h2>Add controller</h2>
-          <form action="../php/add_variant.php" method="post" enctype="multipart/form-data">
-            <div class="field">
-              <label for="model">Model name</label>
-              <input id="model" name="model_name" type="text" placeholder="Steam Controller Pro" required>
+          <div class="panel-head">
+            <div>
+              <h2>Products</h2>
+              <p class="small-link">Manage controller listings, stock, pricing, and product images.</p>
             </div>
-            <div class="form-row">
-              <div class="field">
-                <label for="price">Price</label>
-                <input id="price" name="price" type="number" step="0.01" min="0" placeholder="89.99" required>
-              </div>
-              <div class="field">
-                <label for="stock">Stock</label>
-                <input id="stock" name="stock" type="number" min="0" placeholder="50" required>
-              </div>
-            </div>
-            <div class="field">
-              <label for="description">Description</label>
-              <textarea id="description" name="description" placeholder="Short product description"></textarea>
-            </div>
-            <div class="field">
-              <label for="product_images">Product images</label>
-              <input id="product_images" name="product_images[]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-              <small class="field-hint">Saved in assets/uploads/controllers/{product id}/ as controller-{product id}-{number}.</small>
-            </div>
-            <button class="btn" type="submit" name="add_variant">Save product</button>
-          </form>
-        </section>
-
-        <section class="admin-panel">
-          <h2>Products</h2>
+            <a class="btn with-icon" href="../add_controller.php">
+              <img src="assets/icons/plus.svg" alt="">
+              Add
+            </a>
+          </div>
           <table class="table">
             <thead>
               <tr><th>Image</th><th>Model</th><th>Stock</th><th>Price</th><th>Actions</th></tr>
@@ -145,8 +124,14 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
                     <td>RM<?php echo number_format((float) $controller['price'], 2); ?></td>
                     <td>
                       <span class="small-link"><?php echo h($controller['image_count']); ?> image(s)</span>
-                      <a href="../edit_stock.php?id=<?php echo h($controller['controller_id']); ?>">Edit</a>
-                      <a href="../php/delete_variant.php?id=<?php echo h($controller['controller_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
+                      <span class="table-actions">
+                        <a class="icon-action" href="../edit_product.php?id=<?php echo h($controller['controller_id']); ?>" aria-label="Edit <?php echo h($controller['model_name']); ?>" title="Edit">
+                          <img src="assets/icons/square-pen.svg" alt="">
+                        </a>
+                        <a class="icon-action danger" href="../php/delete_variant.php?id=<?php echo h($controller['controller_id']); ?>" aria-label="Delete <?php echo h($controller['model_name']); ?>" title="Delete" onclick="return confirm('Confirm delete?')">
+                          <img src="assets/icons/trash-2.svg" alt="">
+                        </a>
+                      </span>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -172,8 +157,14 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
                     <td><?php echo h($order['quantity']); ?></td>
                     <td><?php echo h($order['status']); ?></td>
                     <td>
-                      <a href="../edit_order.php?id=<?php echo h($order['order_id']); ?>">Edit</a>
-                      <a href="../php/manage-orders.php?delete=<?php echo h($order['order_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
+                      <span class="table-actions">
+                        <a class="icon-action" href="../edit_order.php?id=<?php echo h($order['order_id']); ?>" aria-label="Edit order <?php echo h($order['order_id']); ?>" title="Edit">
+                          <img src="assets/icons/square-pen.svg" alt="">
+                        </a>
+                        <a class="icon-action danger" href="../php/manage-orders.php?delete=<?php echo h($order['order_id']); ?>" aria-label="Delete order <?php echo h($order['order_id']); ?>" title="Delete" onclick="return confirm('Confirm delete?')">
+                          <img src="assets/icons/trash-2.svg" alt="">
+                        </a>
+                      </span>
                     </td>
                   </tr>
                 <?php endforeach; ?>
@@ -207,7 +198,10 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
                 <option value="customer">Customer</option>
               </select>
             </div>
-            <button class="btn" type="submit" name="add_user">Add user</button>
+            <button class="btn with-icon" type="submit" name="add_user">
+              <img src="assets/icons/plus.svg" alt="">
+              Add user
+            </button>
           </form>
           <table class="table">
             <thead>
@@ -221,8 +215,14 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
                     <td><?php echo h($user['email']); ?></td>
                     <td><?php echo h(ucfirst($user['role'])); ?></td>
                     <td>
-                      <a href="../edit_user.php?id=<?php echo h($user['user_id']); ?>">Edit</a>
-                      <a href="../php/delete_user.php?id=<?php echo h($user['user_id']); ?>" onclick="return confirm('Confirm delete?')">Delete</a>
+                      <span class="table-actions">
+                        <a class="icon-action" href="../edit_user.php?id=<?php echo h($user['user_id']); ?>" aria-label="Edit <?php echo h($user['username']); ?>" title="Edit">
+                          <img src="assets/icons/square-pen.svg" alt="">
+                        </a>
+                        <a class="icon-action danger" href="../php/delete_user.php?id=<?php echo h($user['user_id']); ?>" aria-label="Delete <?php echo h($user['username']); ?>" title="Delete" onclick="return confirm('Confirm delete?')">
+                          <img src="assets/icons/trash-2.svg" alt="">
+                        </a>
+                      </span>
                     </td>
                   </tr>
                 <?php endforeach; ?>

@@ -14,7 +14,10 @@ if (!isset($_SESSION['role'])) {
         <input type="number" step="0.01" name="price" placeholder="Price (RM)" required style="padding:8px; width:100px;">
         <input type="number" name="stock" placeholder="Stock" required style="padding:8px; width:80px;">
         <input type="file" name="product_images[]" accept="image/jpeg,image/png,image/webp,image/gif" multiple style="padding:8px;">
-        <button type="submit" name="add_variant" style="padding:8px 15px; cursor:pointer;">Add Variant</button>
+        <button type="submit" name="add_variant" style="display:inline-flex; align-items:center; gap:6px; padding:8px 15px; cursor:pointer;">
+            <img src="frontend/assets/icons/plus.svg" alt="" style="width:16px; height:16px;">
+            Add Variant
+        </button>
     </form>
 </div>
 
@@ -36,10 +39,16 @@ if (!isset($_SESSION['role'])) {
                     <td style='padding:10px; border-bottom:1px solid #eee;'>RM {$row['price']}</td>
                     <td style='padding:10px; border-bottom:1px solid #eee;'>{$row['stock_quantity']}</td>
                     <td style='padding:10px; border-bottom:1px solid #eee;'>
-                        <a href='edit_stock.php?id={$row['controller_id']}' style='margin-right:10px;'>Edit</a> 
+                        <a href='edit_product.php?id={$row['controller_id']}' aria-label='Edit product' title='Edit' style='display:inline-flex; width:34px; height:34px; align-items:center; justify-content:center; border:1px solid #ddd; border-radius:8px; margin-right:6px; vertical-align:middle;'>
+                            <img src='frontend/assets/icons/square-pen.svg' alt='' style='width:17px; height:17px; display:block;'>
+                        </a>
                         <a href='php/delete_variant.php?id={$row['controller_id']}' 
-                           style='color:red; text-decoration:none;' 
-                           onclick='return confirm(\"Adakah anda pasti mahu memadam variasi ini?\")'>Delete</a>
+                           aria-label='Delete product'
+                           title='Delete'
+                           style='display:inline-flex; width:34px; height:34px; align-items:center; justify-content:center; border:1px solid #ddd; border-radius:8px; vertical-align:middle;'
+                           onclick='return confirm(\"Adakah anda pasti mahu memadam variasi ini?\")'>
+                            <img src='frontend/assets/icons/trash-2.svg' alt='' style='width:17px; height:17px; display:block;'>
+                        </a>
                     </td>
                   </tr>";
         }
