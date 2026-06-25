@@ -440,24 +440,6 @@ body.page-transitioning main:not(.auth-page) {
   }
 }
 
-.btn.preorder-launch-btn {
-  min-height: 48px;
-  padding: 0 24px;
-  border-color: var(--color-bg-blue);
-  background: var(--color-bg-blue);
-  border-radius: 999px;
-  box-shadow: none;
-  font-size: var(--type-base-size);
-  font-weight: 800;
-  line-height: var(--type-base-line);
-  animation: fade-rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 520ms both;
-}
-
-.btn.preorder-launch-btn:hover {
-  border-color: var(--color-bg-blue-hover);
-  background: var(--color-bg-blue-hover);
-}
-
 @keyframes fade-rise {
   from {
     opacity: 0;
@@ -478,15 +460,6 @@ body.page-transitioning main:not(.auth-page) {
 
   50% {
     transform: translate3d(0, 12px, 0) rotate(1deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .launch-copy,
-  .controller-stage,
-  .preorder-launch-btn,
-  .floating-controller {
-    animation: none;
   }
 }
 
@@ -562,6 +535,36 @@ body.page-transitioning main:not(.auth-page) {
 .btn.secondary {
   background: var(--bg);
   color: var(--ink);
+}
+
+/* Gaya Utama Butang Preorder */
+.preorder-launch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 24px;
+  border-color: var(--color-bg-blue);
+  background: var(--color-bg-blue);
+  color: white; /* Pastikan teks butang nampak */
+  border-radius: 999px;
+  font-size: var(--type-base-size);
+  font-weight: 800;
+  text-decoration: none; /* Buang garis bawah link */
+  transition: background 0.3s ease;
+  animation: fade-rise 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 520ms both;
+}
+
+.preorder-launch-btn:hover {
+  background: var(--color-bg-blue-hover);
+  border-color: var(--color-bg-blue-hover);
+}
+
+/* Mengatasi isu media query */
+@media (prefers-reduced-motion: reduce) {
+  .preorder-launch-btn {
+    animation: none;
+  }
 }
 
 .image-placeholder,
@@ -808,49 +811,6 @@ body.page-transitioning main:not(.auth-page) {
   font-size: var(--type-md-size);
   font-weight: var(--type-weight);
   line-height: var(--type-md-line);
-}
-
-.preorder-btn {
-  width: max-content;
-  min-height: 38px;
-  margin-top: 30px;
-  padding: 0 23px;
-  border-color: var(--color-bg-blue);
-  background: var(--color-bg-blue);
-  border-radius: 999px;
-  font-size: var(--type-base-size);
-}
-
-.preorder-btn.disabled {
-  border-color: var(--color-border-200);
-  background: var(--color-border-200);
-}
-
-.preorder-form {
-  display: grid;
-  width: min(220px, 100%);
-  gap: 8px;
-  margin-top: 28px;
-}
-
-.preorder-form label {
-  color: var(--muted);
-  font-size: var(--type-sm-size);
-  font-weight: var(--type-weight);
-  line-height: var(--type-sm-line);
-}
-
-.preorder-form input {
-  min-height: 40px;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  font-weight: var(--type-weight);
-}
-
-.preorder-form .preorder-btn {
-  width: 100%;
-  margin-top: 4px;
 }
 
 .product-divider {
@@ -1866,10 +1826,6 @@ body[data-page="about"] {
   .launch-info h1,
   .launch-info p {
     display: none;
-  }
-
-  .preorder-launch-btn {
-    min-height: 46px;
   }
 
   .hero,

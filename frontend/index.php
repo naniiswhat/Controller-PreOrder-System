@@ -13,14 +13,7 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-page="home">
-  <nav class="top-nav" aria-label="Main navigation">
-    <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo.svg" alt="">
-    </a>
-    <a href="shop.php" data-page="shop">Shop</a>
-    <a href="about.php" data-page="about">About</a>
-    <a href="<?php echo $navHref; ?>" data-page="login"><?php echo $navLabel; ?></a>
-  </nav>
+  <?php include __DIR__ . '/../includes/navbar.php'; ?>
 
   <main class="home-main">
     <section class="launch-hero" aria-label="Steam Controller preorder">

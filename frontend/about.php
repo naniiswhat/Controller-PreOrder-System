@@ -12,16 +12,11 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
   <title>About | Controller Pre Order System</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body data-page="about">
-  <nav class="top-nav" aria-label="Main navigation">
-    <a class="brand" href="index.php" aria-label="Home">
-      <img src="assets/logo.svg" alt="">
-    </a>
-    <a href="shop.php" data-page="shop">Shop</a>
-    <a href="about.php" data-page="about">About</a>
-    <a href="<?php echo $navHref; ?>" data-page="login"><?php echo $navLabel; ?></a>
-  </nav>
 
+<body data-page="about">
+  
+<?php include __DIR__ . '/../includes/navbar.php'; ?>
+  
   <main class="about-main">
     <section class="about-survivor" aria-labelledby="survivor-title">
       <p>It's us!</p>
