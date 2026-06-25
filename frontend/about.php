@@ -64,17 +64,17 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
 
       <div class="team-grid">
         <article class="team-member">
-          <img src="assets/team-ryan.svg" alt="Ryan Mitchell">
+          <img src="assets/patrick.png" alt="Ryan Mitchell">
           <h3>Yee Ching Yang</h3>
           <p>Founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-madison.svg" alt="Madison Clarke">
+          <img src="assets/daniel.jpg" alt="Madison Clarke">
           <h3>Daniel Iman Haqimie Bin Yusuff</h3>
           <p>Drop Marketing</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-jake.svg" alt="Jake Mitchell">
+          <img src="assets/pravein.jpg" alt="Jake Mitchell">
           <h3>Pravein A/L Letchuman</h3>
           <p>Co Founder</p>
         </article>

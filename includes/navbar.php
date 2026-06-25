@@ -1,5 +1,4 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,9 +7,10 @@ if (!function_exists('h')) {
     function h($value) { return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8'); }
 }
 
-$navLabel = isset($_SESSION['role']) ? 'Logout' : 'Login';
-$navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
-$confirmMessage = isset($_SESSION['role']) ? 'Are you sure you want to logout?' : 'Are you sure you want to login?';
+$isLoggedIn = isset($_SESSION['role']);
+$navLabel = $isLoggedIn ? 'Logout' : 'Login';
+$navHref = $isLoggedIn ? '../logout.php' : 'login.php';
+$confirmMessage = $isLoggedIn ? 'Are you sure you want to logout?' : '';
 ?>
 
 <nav class="top-nav" aria-label="Main navigation">
@@ -19,7 +19,7 @@ $confirmMessage = isset($_SESSION['role']) ? 'Are you sure you want to logout?' 
     <a href="about.php" data-page="about">About</a>
     
     <a href="#" 
-       onclick="confirmNavigation('<?php echo h($navHref); ?>', '<?php echo h($confirmMessage); ?>');" 
+       onclick="<?php echo !empty($confirmMessage) ? "confirmNavigation('" . h($navHref) . "', '" . h($confirmMessage) . "');" : "window.location.href='" . h($navHref) . "';"; ?>" 
        data-page="login">
        <?php echo h($navLabel); ?>
     </a>

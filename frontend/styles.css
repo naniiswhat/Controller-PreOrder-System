@@ -497,6 +497,28 @@ body.page-transitioning main:not(.auth-page) {
 .page-title p {
   margin: 0;
 }
+
+.product-info-box {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 10px;
+    background: #ffffff;
+}
+
+.title-shop {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+}
+
 .card p,
 .product p {
   color: var(--muted);
@@ -628,9 +650,11 @@ body.page-transitioning main:not(.auth-page) {
   gap: 24px 16px;
 }
 
-.product-image {
-  aspect-ratio: 1 / 1;
-  margin-bottom: 0;
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  display: block;
 }
 
 .product h2 {
