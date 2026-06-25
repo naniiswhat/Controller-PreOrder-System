@@ -537,7 +537,6 @@ body.page-transitioning main:not(.auth-page) {
   color: var(--ink);
 }
 
-/* Gaya Utama Butang Preorder */
 .preorder-launch-btn {
   display: inline-flex;
   align-items: center;
@@ -560,7 +559,6 @@ body.page-transitioning main:not(.auth-page) {
   border-color: var(--color-bg-blue-hover);
 }
 
-/* Mengatasi isu media query */
 @media (prefers-reduced-motion: reduce) {
   .preorder-launch-btn {
     animation: none;
