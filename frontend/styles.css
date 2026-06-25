@@ -355,7 +355,7 @@ body.page-transitioning main:not(.auth-page) {
 .launch-kicker {
   margin: 0 0 10px;
   color: #6c5333;
-  font-size: 12px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -471,6 +471,7 @@ body.page-transitioning main:not(.auth-page) {
 }
 
 @keyframes controller-float {
+
   0%,
   100% {
     transform: translate3d(0, -8px, 0) rotate(-1deg);
@@ -482,6 +483,7 @@ body.page-transitioning main:not(.auth-page) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .launch-copy,
   .controller-stage,
   .preorder-launch-btn,
@@ -515,6 +517,7 @@ body.page-transitioning main:not(.auth-page) {
 .page-title p {
   margin: 0;
 }
+
 .card p,
 .product p {
   color: var(--muted);
@@ -1538,7 +1541,7 @@ body[data-page="about"] {
   min-height: 640px;
 }
 
-.proof-copy > p {
+.proof-copy>p {
   width: 100%;
   max-width: 560px;
   margin: 0;
@@ -1549,14 +1552,14 @@ body[data-page="about"] {
   overflow-wrap: break-word;
 }
 
-.about-animate-ready .about-proof .proof-copy > p,
+.about-animate-ready .about-proof .proof-copy>p,
 .about-animate-ready .about-proof .proof-stats div,
 .about-animate-ready .about-proof .proof-showcase {
   opacity: 0;
   transform: translateY(28px);
 }
 
-.about-proof.is-visible .proof-copy > p,
+.about-proof.is-visible .proof-copy>p,
 .about-proof.is-visible .proof-stats div,
 .about-proof.is-visible .proof-showcase {
   opacity: 1;
@@ -1622,11 +1625,9 @@ body[data-page="about"] {
   place-items: center;
   overflow: hidden;
   background:
-    radial-gradient(
-      circle at 35% 36%,
+    radial-gradient(circle at 35% 36%,
       rgba(94, 116, 136, 0.35),
-      transparent 26%
-    ),
+      transparent 26%),
     linear-gradient(135deg, #151718 0%, #272a2a 50%, #0c0d0e 100%);
   isolation: isolate;
 }
@@ -1636,17 +1637,13 @@ body[data-page="about"] {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(
-      90deg,
+    linear-gradient(90deg,
       transparent 0 18%,
       rgba(255, 255, 255, 0.08) 18% 18.4%,
-      transparent 18.4% 100%
-    ),
-    linear-gradient(
-      0deg,
+      transparent 18.4% 100%),
+    linear-gradient(0deg,
       rgba(255, 255, 255, 0.08) 0 0.5%,
-      transparent 0.5% 100%
-    );
+      transparent 0.5% 100%);
   background-size:
     180px 100%,
     100% 92px;
@@ -1688,17 +1685,13 @@ body[data-page="about"] {
   height: 44px;
   border-bottom: 2px solid rgba(255, 255, 255, 0.18);
   background:
-    radial-gradient(
-      ellipse at center,
+    radial-gradient(ellipse at center,
       rgba(245, 245, 245, 0.34) 0 18%,
-      transparent 19%
-    ),
-    linear-gradient(
-      90deg,
+      transparent 19%),
+    linear-gradient(90deg,
       transparent 0 15%,
       rgba(255, 255, 255, 0.22) 15% 85%,
-      transparent 85% 100%
-    );
+      transparent 85% 100%);
 }
 
 .about-team {
@@ -1783,7 +1776,8 @@ body[data-page="about"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-animate-ready .about-proof .proof-copy > p,
+
+  .about-animate-ready .about-proof .proof-copy>p,
   .about-animate-ready .about-proof .proof-stats div,
   .about-animate-ready .about-proof .proof-showcase,
   .about-animate-ready .about-team .team-member {
@@ -1791,7 +1785,7 @@ body[data-page="about"] {
     transform: none;
   }
 
-  .about-proof.is-visible .proof-copy > p,
+  .about-proof.is-visible .proof-copy>p,
   .about-proof.is-visible .proof-stats div,
   .about-proof.is-visible .proof-showcase,
   .about-team.is-visible .team-member {
@@ -2016,7 +2010,7 @@ body[data-page="about"] {
     min-height: auto;
   }
 
-  .proof-copy > p {
+  .proof-copy>p {
     max-width: 320px;
     font-size: 20px;
   }
@@ -2063,4 +2057,117 @@ body[data-page="about"] {
   .team-member p {
     font-size: 22px;
   }
+}
+
+@media (max-width: 800px) {
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info {
+    position: relative;
+    width: 100%;
+    left: 0;
+    right: 0;
+    transform: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px 40px 20px;
+    margin-top: -30px;
+    z-index: 20;
+  }
+
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info h1,
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info p {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: #111;
+  }
+
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+    color: #444;
+    max-width: 320px;
+  }
+
+  body[data-page="home"] main.home-main section.launch-hero div.launch-info a.preorder-launch-btn {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ========================================================= */
+/* SYSTEM OVERRIDE: SHOP.PHP PREMIUM UI CARDS                */
+/* ========================================================= */
+body[data-page="shop"] .shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+  gap: 30px;
+  justify-content: start;
+  margin-top: 20px;
+}
+
+body[data-page="shop"] .product {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid #e3e3e3;
+  border-radius: 16px;
+  background: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+body[data-page="shop"] .product:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+  border-color: transparent;
+}
+
+body[data-page="shop"] .product-image {
+  aspect-ratio: 4 / 3;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+body[data-page="shop"] .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+body[data-page="shop"] .product h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111;
+  margin: 0;
+}
+
+body[data-page="shop"] .product p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+body[data-page="shop"] .product .price {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #005eff;
+  margin-top: auto;
 }

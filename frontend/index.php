@@ -21,36 +21,6 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Controller Pre Order System</title>
   <link rel="stylesheet" href="styles.css">
-  
-  <style>
-    @media (max-width: 800px) {
-      .launch-info {
-        text-align: center !important;
-        padding: 0 20px 30px 20px !important;
-        position: relative;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-      .launch-info h1, .launch-info p {
-        display: block !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-      .launch-info h1 {
-        font-size: 2.2rem !important;
-        margin-bottom: 10px !important;
-        color: #111 !important;
-      }
-      .launch-info p {
-        font-size: 1rem !important;
-        margin-bottom: 25px !important;
-        color: #555 !important;
-        max-width: 320px;
-      }
-    }
-  </style>
 </head>
 <body data-page="home">
   <nav class="top-nav" aria-label="Main navigation">

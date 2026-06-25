@@ -1,58 +1,63 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: frontend/login.php");
     exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Controller | Controller Pre Order System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="frontend/styles.css">
 </head>
-<body class="bg-light">
-    <div class="container my-5 d-flex justify-content-center">
-        <div class="card shadow p-4 w-100" style="max-width: 560px;">
-            <h3 class="mb-4 text-center">Add Controller</h3>
-            <form action="php/add_variant.php" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label class="form-label" for="model_name">Model Name:</label>
-                    <input id="model_name" type="text" class="form-control" name="model_name" required>
+<body data-page="admin-edit">
+    <nav class="top-nav" aria-label="Backend navigation">
+        <a class="brand" href="frontend/dashboard_admin.php">
+            <img src="frontend/assets/logo.svg" alt="Logo">
+        </a>
+        <a href="logout.php">Logout</a>
+    </nav>
+    <main>
+        <section class="page backend-edit-page">
+            <header class="admin-header">
+                <div>
+                    <h1>Add new product</h1>
+                    <p class="small-link">Create a new controller variant in the database.</p>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="description">Description:</label>
-                    <textarea id="description" class="form-control" name="description" rows="4"></textarea>
+                <a class="btn secondary" href="frontend/dashboard_admin.php">Back to dashboard</a>
+            </header>
+            <form class="backend-edit-grid" action="php/add_variant.php" method="POST" enctype="multipart/form-data">
+                <section class="admin-panel backend-edit-main" style="grid-column: 1 / -1;">
+                    <div class="field">
+                        <label>Model Name</label>
+                        <input type="text" name="model_name" required>
+                    </div>
+                    <div class="field" style="margin-top: 14px;">
+                        <label>Description</label>
+                        <textarea name="description" rows="4"></textarea>
+                    </div>
+                    <div class="form-row" style="margin-top: 14px;">
+                        <div class="field">
+                            <label>Price (RM)</label>
+                            <input type="number" step="0.01" min="0" name="price" required>
+                        </div>
+                        <div class="field">
+                            <label>Stock Quantity</label>
+                            <input type="number" min="0" name="stock" required>
+                        </div>
+                    </div>
+                    <div class="field" style="margin-top: 14px;">
+                        <label>Product Images</label>
+                        <input type="file" name="product_images[]" accept="image/jpeg,image/png,image/webp,image/gif" multiple style="padding: 10px;">
+                        <span class="field-hint">Select multiple images to upload to the product gallery.</span>
+                    </div>
+                </section>
+                <div class="backend-actions" style="grid-column: 1 / -1;">
+                    <button type="submit" name="add_variant" class="btn">Add Product</button>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="price">Price (RM):</label>
-                    <input id="price" type="number" step="0.01" min="0" class="form-control" name="price" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label" for="stock">Stock Quantity:</label>
-                    <input id="stock" type="number" min="0" class="form-control" name="stock" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label" for="product_images">Product Images:</label>
-                    <input id="product_images" class="form-control" name="product_images[]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                    <div class="form-text">Saved in assets/uploads/controllers/{product id}/ as controller-{product id}-{number}.</div>
-                </div>
-
-                <button type="submit" name="add_variant" class="btn btn-success w-100 mb-2 d-flex align-items-center justify-content-center gap-2">
-                    <img src="frontend/assets/icons/plus.svg" alt="" style="width:16px; height:16px; filter:invert(1);">
-                    Add Product
-                </button>
-                <a href="frontend/dashboard_admin.php" class="btn btn-outline-secondary w-100">Cancel</a>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>

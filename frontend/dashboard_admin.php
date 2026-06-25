@@ -78,7 +78,6 @@ $users = fetch_rows($conn, "SELECT user_id, username, email, role FROM users ORD
           <h1>Admin page</h1>
           <p class="small-link">Welcome <?php echo h($_SESSION['name'] ?? 'admin'); ?>. Products, pre orders, and users in one place.</p>
         </div>
-        <a class="btn secondary" href="shop.php">View shop</a>
       </header>
 
       <?php if (isset($_GET["status"])): ?>
