@@ -79,12 +79,12 @@ $navHref = isset($_SESSION['role']) ? '../logout.php' : 'login.php';
           <p>Co Founder</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-ava.svg" alt="Ava Bennett">
+          <img src="assets/rafiq.png" alt="Ava Bennett">
           <h3>Abdurrafiq Bin Zakaria</h3>
           <p>Operations Lead</p>
         </article>
         <article class="team-member">
-          <img src="assets/team-noah.svg" alt="Noah Tan">
+          <img src="assets/hazim.png" alt="Noah Tan">
           <h3>Muhammad Hazim Bin Zulkanain</h3>
           <p>Support Lead</p>
         </article>
