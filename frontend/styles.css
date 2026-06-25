@@ -353,12 +353,21 @@ body.page-transitioning main:not(.auth-page) {
 }
 
 .launch-kicker {
-  margin: 0 0 10px;
-  color: #6c5333;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  display: flex;
+  margin: 0 auto 20px auto;
+  width: fit-content;
+  padding: 10px 30px;
+  background: #1a202c;
+  color: #fbbf24;
+  border-radius: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  animation: bounce-glow 3s infinite ease-in-out;
+  cursor: default;
 }
 
 .launch-copy h1 {
